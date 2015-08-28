@@ -1,0 +1,16 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="davidwang.tm.dwcorephoto.SingleShow">
+
+    <ImageView
+        android:id="@+id/show_img"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:background="#888888"
+        android:scaleType="centerCrop"
+        />
+
+</RelativeLayout>

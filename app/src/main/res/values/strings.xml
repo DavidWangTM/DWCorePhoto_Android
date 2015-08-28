@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">DWCorePhoto</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_single_show">SingleShow</string>
+</resources>
