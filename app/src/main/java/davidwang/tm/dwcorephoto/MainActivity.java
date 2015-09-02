@@ -3,22 +3,9 @@ package davidwang.tm.dwcorephoto;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
-
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
 
 import java.util.ArrayList;
 
@@ -81,7 +68,8 @@ public class MainActivity extends AppCompatActivity implements  AdapterView.OnIt
                 break;
 
         }
-        startActivity(intent);
+        if (intent != null)
+            startActivity(intent);
     }
 
 }

@@ -37,7 +37,7 @@
         </expanded-state>
         <selected-state>
           <State>
-            <id>Android</id>
+            <id>General</id>
           </State>
         </selected-state>
       </profile-state>
@@ -58,5 +58,8 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration>$USER_HOME$/.subversion</configuration>
   </component>
 </project>
