@@ -7,13 +7,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
 import davidwang.tm.model.ImageBDInfo;
 import davidwang.tm.model.ImageInfo;
+import davidwang.tm.tools.ImageLoaders;
 
 
 public class SingleShow extends BaseActivity implements View.OnClickListener{
@@ -44,7 +43,7 @@ public class SingleShow extends BaseActivity implements View.OnClickListener{
         imageInfo.url = "http://img4q.duitang.com/uploads/item/201408/11/20140811141753_iNtAF.jpeg";
         data.add(imageInfo);
         show_img = (ImageView)findViewById(R.id.show_img);
-        ImageLoader.getInstance().displayImage(imageInfo.url,show_img,getWholeOptions());
+        ImageLoaders.setsendimg(imageInfo.url, show_img);
     }
 
     @Override

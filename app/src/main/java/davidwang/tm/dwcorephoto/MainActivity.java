@@ -18,7 +18,6 @@ public class MainActivity extends AppCompatActivity implements  AdapterView.OnIt
     private MainListAdapter adapter;
     private ArrayList<MainInfo> data;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements  AdapterView.OnIt
                 intent = new Intent(MainActivity.this,SingleShow.class);
                 break;
             case 1:
+                intent = new Intent(MainActivity.this,ListViewActivity .class);
                 break;
             case 2:
                 break;

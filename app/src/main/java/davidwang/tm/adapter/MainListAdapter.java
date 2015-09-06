@@ -58,13 +58,6 @@ public class MainListAdapter extends BaseAdapter{
         }
 
         holder.main_text.setText(info.content);
-
-
-
-//        animate(holder.main_text).setDuration(2000).rotationYBy(720).x(100).y(100);
-
-
-
         return convertView;
     }
 

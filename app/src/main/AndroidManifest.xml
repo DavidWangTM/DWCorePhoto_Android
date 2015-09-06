@@ -19,8 +19,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SingleShow" android:theme="@style/Theme"/>
-        <activity android:name=".PreviewImage" android:theme="@style/Theme" />
+        <activity
+            android:name=".SingleShow"
+            android:theme="@style/Theme" />
+        <activity
+            android:name=".PreviewImage"
+            android:theme="@style/Theme" />
+        <activity
+            android:name=".ListViewActivity"
+            android:theme="@style/Theme" >
+        </activity>
     </application>
 
 </manifest>

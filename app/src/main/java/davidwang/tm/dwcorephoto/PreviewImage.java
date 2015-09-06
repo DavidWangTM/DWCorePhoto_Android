@@ -24,6 +24,7 @@ import java.util.List;
 
 import davidwang.tm.model.ImageBDInfo;
 import davidwang.tm.model.ImageInfo;
+import davidwang.tm.tools.ImageLoaders;
 import davidwang.tm.view.HackyViewPager;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher.OnViewTapListener;
@@ -37,6 +38,9 @@ public class PreviewImage extends BaseActivity implements OnPageChangeListener {
 	private DisplayImageOptions options;
 	private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
 	private SamplePagerAdapter pagerAdapter;
+
+	private float moveheight;
+	private int type;
 	
 
 	@Override
@@ -71,12 +75,19 @@ public class PreviewImage extends BaseActivity implements OnPageChangeListener {
 		// TODO Auto-generated method stub
 		super.InData();
 		index = getIntent().getIntExtra("index", 0);
+		type = getIntent().getIntExtra("type",0);
 		ImgList = (ArrayList<ImageInfo>)getIntent().getSerializableExtra("data");
 		imageInfo = ImgList.get(index);
 		bdInfo = (ImageBDInfo)getIntent().getSerializableExtra("bdinfo");
 		pagerAdapter = new SamplePagerAdapter();
 		viewpager.setAdapter(pagerAdapter);
 		viewpager.setCurrentItem(index);
+		if (type == 1){
+			moveheight = dip2px(70);
+
+		}else if (type == 2){
+
+		}
 	}
 
 
@@ -89,12 +100,20 @@ public class PreviewImage extends BaseActivity implements OnPageChangeListener {
 	@Override
 	public void onPageScrolled(int arg0, float arg1, int arg2) {
 		// TODO Auto-generated method stub
+
 	}
 
 	@Override
 	public void onPageSelected(int arg0) {
 		// TODO Auto-generated method stub
-		index = arg0;
+		if (showimg == null){
+			return;
+		}
+		ImageInfo info = ImgList.get(arg0);
+		ImageLoaders.setsendimg(info.url, showimg);
+		int move_index = arg0 - index;
+		to_y = move_index * moveheight;
+
 	}
 
 	class SamplePagerAdapter extends PagerAdapter {

@@ -1,12 +1,10 @@
 package davidwang.tm.dwcorephoto;
 
-import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -21,12 +19,10 @@ import com.facebook.rebound.SpringUtil;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import davidwang.tm.model.ImageBDInfo;
 import davidwang.tm.model.ImageInfo;
+import davidwang.tm.tools.ImageLoaders;
 
 /**
  * Created by DavidWang on 15/8/31.
@@ -57,6 +53,11 @@ public class BaseActivity extends AppCompatActivity {
 
     //原图高
     private float y_img_h;
+    protected float to_x = 0;
+    protected float to_y = 0;
+    private float tx;
+    private float ty;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +123,7 @@ public class BaseActivity extends AppCompatActivity {
 //        actionBar.hide();
         showimg = new ImageView(this);
         showimg.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        ImageLoader.getInstance().displayImage(imageInfo.url,showimg,getWholeOptions());
+        ImageLoaders.setsendimg(imageInfo.url,showimg);
         img_w = bdInfo.width;
         img_h = bdInfo.height;
         size = Width/img_w;
@@ -153,7 +154,9 @@ public class BaseActivity extends AppCompatActivity {
             int contentTop = getWindow().findViewById(Window.ID_ANDROID_CONTENT).getTop();
     //statusBarHeight是上面所求的状态栏的高度
             int titleBarHeight = contentTop - statusBarHeight;
-            MoveView(Width/2 - (bdInfo.x+img_w/2),(Height - statusBarHeight - titleBarHeight )/2-(bdInfo.y+img_h/2) - 25);
+            tx = Width/2 - (bdInfo.x+img_w/2);
+            ty = (Height - statusBarHeight - titleBarHeight )/2-(bdInfo.y+img_h/2) - 25;
+            MoveView();
             return;
         }
         mSpring.setSpringConfig(SpringConfig.fromOrigamiTensionAndFriction(1, 5));
@@ -172,8 +175,6 @@ public class BaseActivity extends AppCompatActivity {
 
         @Override
         public void onSpringUpdate(Spring spring) {
-            Log.e("v", spring.getCurrentValue() + "");
-
             double CurrentValue = spring.getCurrentValue();
             float mappedValue = (float) SpringUtil.mapValueFromRangeToRange(CurrentValue, 0, 1, 1, size);
             float mapy =  (float) SpringUtil.mapValueFromRangeToRange(CurrentValue, 0, 1, 1, size_h);
@@ -229,14 +230,14 @@ public class BaseActivity extends AppCompatActivity {
     }
 
 
-    private void MoveView(float tx,float ty){
+    private void MoveView(){
 
         ObjectAnimator.ofFloat(MainView,"alpha",0.8f).setDuration(0).start();
         MainView.setVisibility(View.VISIBLE);
         AnimatorSet set = new AnimatorSet();
         set.playTogether(
-                ObjectAnimator.ofFloat(showimg, "translationX", 0, tx).setDuration(200),
-                ObjectAnimator.ofFloat(showimg, "translationY", 0, ty).setDuration(200),
+                ObjectAnimator.ofFloat(showimg, "translationX",tx).setDuration(200),
+                ObjectAnimator.ofFloat(showimg, "translationY",ty).setDuration(200),
                 ObjectAnimator.ofFloat(MainView,"alpha",1).setDuration(200)
 
         );
@@ -269,8 +270,8 @@ public class BaseActivity extends AppCompatActivity {
     private void MoveBackView(){
         AnimatorSet set = new AnimatorSet();
         set.playTogether(
-                ObjectAnimator.ofFloat(showimg, "translationX", 0).setDuration(200),
-                ObjectAnimator.ofFloat(showimg, "translationY", 0).setDuration(200)
+                ObjectAnimator.ofFloat(showimg, "translationX",to_x).setDuration(200),
+                ObjectAnimator.ofFloat(showimg, "translationY",to_y).setDuration(200)
         );
         set.addListener(new Animator.AnimatorListener() {
             @Override
@@ -294,28 +295,6 @@ public class BaseActivity extends AppCompatActivity {
             }
         });
         set.start();
-    }
-
-    protected DisplayImageOptions getWholeOptions() {
-        DisplayImageOptions options = new DisplayImageOptions.Builder()
-                .showImageOnLoading(0) //设置图片在下载期间显示的图片
-                .showImageForEmptyUri(0)//设置图片Uri为空或是错误的时候显示的图片
-                .showImageOnFail(0)  //设置图片加载/解码过程中错误时候显示的图片
-                .cacheInMemory(true)//设置下载的图片是否缓存在内存中
-                .cacheOnDisk(true)//设置下载的图片是否缓存在SD卡中
-                .considerExifParams(true)  //是否考虑JPEG图像EXIF参数（旋转，翻转）
-                .imageScaleType(ImageScaleType.IN_SAMPLE_INT)//设置图片以如何的编码方式显示
-                .bitmapConfig(Bitmap.Config.RGB_565)//设置图片的解码类型
-                        //.decodingOptions(BitmapFactory.Options decodingOptions)//设置图片的解码配置
-                .delayBeforeLoading(0)//int delayInMillis为你设置的下载前的延迟时间
-                        //设置图片加入缓存前，对bitmap进行设置
-                        //.preProcessor(BitmapProcessor preProcessor)
-                .resetViewBeforeLoading(true)//设置图片在下载前是否重置，复位
-//                .displayer(new RoundedBitmapDisplayer(20))//不推荐用！！！！是否设置为圆角，弧度为多少
-//                .displayer(new FadeInBitmapDisplayer(100))//是否图片加载好后渐入的动画时间，可能会出现闪动
-                .build();//构建完成
-
-        return options;
     }
 
 }
