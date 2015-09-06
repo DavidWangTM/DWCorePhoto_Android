@@ -84,9 +84,8 @@ public class PreviewImage extends BaseActivity implements OnPageChangeListener {
 		viewpager.setCurrentItem(index);
 		if (type == 1){
 			moveheight = dip2px(70);
-
 		}else if (type == 2){
-
+			moveheight = (Width - 3 * dip2px(2))/3;
 		}
 	}
 
@@ -111,9 +110,19 @@ public class PreviewImage extends BaseActivity implements OnPageChangeListener {
 		}
 		ImageInfo info = ImgList.get(arg0);
 		ImageLoaders.setsendimg(info.url, showimg);
-		int move_index = arg0 - index;
-		to_y = move_index * moveheight;
+		if (type == 1){
+			int move_index = arg0 - index;
+			to_y = move_index * moveheight;
+		}else if (type == 2){
+			int	a = index / 3;
+			int b = index % 3;
+			int a1 = arg0 / 3;
+			int b1 = arg0 % 3;
+			float img_w = (Width - 3 * dip2px(2))/3;
+			to_y = (a1 - a) * img_w + (a1 - a) * dip2px(2);
+			to_x = (b1 - b) * img_w + (b1 - b) * dip2px(2);
 
+		}
 	}
 
 	class SamplePagerAdapter extends PagerAdapter {

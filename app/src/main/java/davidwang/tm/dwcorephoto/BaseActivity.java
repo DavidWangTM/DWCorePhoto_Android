@@ -31,9 +31,9 @@ public class BaseActivity extends AppCompatActivity {
 
     private Toast mToast;
     // 屏幕宽度
-    protected float Width;
+    public float Width;
     // 屏幕高度
-    protected float Height;
+    public float Height;
 
     protected  ImageView showimg;
 

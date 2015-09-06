@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements  AdapterView.OnIt
                 intent = new Intent(MainActivity.this,ListViewActivity .class);
                 break;
             case 2:
+                intent = new Intent(MainActivity.this,GridViewActivity.class);
                 break;
             case 3:
                 break;

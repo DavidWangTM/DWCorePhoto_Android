@@ -29,6 +29,10 @@
             android:name=".ListViewActivity"
             android:theme="@style/Theme" >
         </activity>
+        <activity
+            android:name=".GridViewActivity"
+            android:theme="@style/Theme" >
+        </activity>
     </application>
 
 </manifest>
