@@ -1,16 +1,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/relative"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="davidwang.tm.dwcorephoto.ListViewActivity">
+    tools:context="davidwang.tm.dwcorephoto.MixShowActivity">
+
 
     <ListView
-        android:id="@+id/listview"
+        android:id="@+id/mixlist"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:dividerHeight="1dp"
         android:fadingEdge="none"
         android:fastScrollEnabled="false"
         />
+
 
 </RelativeLayout>

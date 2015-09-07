@@ -66,8 +66,8 @@ public class MainActivity extends AppCompatActivity implements  AdapterView.OnIt
                 intent = new Intent(MainActivity.this,GridViewActivity.class);
                 break;
             case 3:
+                intent = new Intent(MainActivity.this,MixShowActivity.class);
                 break;
-
         }
         if (intent != null)
             startActivity(intent);

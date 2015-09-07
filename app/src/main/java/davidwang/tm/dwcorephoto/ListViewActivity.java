@@ -1,20 +1,29 @@
 package davidwang.tm.dwcorephoto;
 
 import android.os.Bundle;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 
 import davidwang.tm.adapter.ListViewAdapter;
 import davidwang.tm.model.ImageInfo;
 
-public class ListViewActivity extends BaseActivity {
+public class ListViewActivity extends BaseActivity implements View.OnTouchListener,AbsListView.OnScrollListener{
 
     public ListView listView;
     private ListViewAdapter adapter;
     private ArrayList<ImageInfo> data;
+    private RelativeLayout relative;
+
+    private boolean is_top ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,13 +33,14 @@ public class ListViewActivity extends BaseActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         findID();
         InData();
-
+        Listener();
     }
 
     @Override
     protected void findID() {
         super.findID();
         listView = (ListView)findViewById(R.id.listview);
+        relative = (RelativeLayout)findViewById(R.id.relative);
     }
 
     @Override
@@ -69,6 +79,12 @@ public class ListViewActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void Listener() {
+        super.Listener();
+        listView.setOnTouchListener(this);
+        listView.setOnScrollListener(this);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -80,4 +96,40 @@ public class ListViewActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        Log.e("1",event.getY()+"-Y");
+        int actionMasked = MotionEventCompat.getActionMasked(event);
+        switch (actionMasked){
+            case MotionEvent.ACTION_DOWN: {
+                break;
+            }
+            case MotionEvent.ACTION_MOVE: {
+                break;
+            }
+            case MotionEvent.ACTION_UP:{
+                break;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        if(firstVisibleItem == 0){
+            Log.e("log", "滑到顶部");
+            is_top = true;
+        }else{
+            Log.e("log", "滑到中");
+            is_top = false;
+        }
+        if(visibleItemCount+firstVisibleItem==totalItemCount){
+//            Log.e("log", "滑到底部");
+        }
+    }
 }

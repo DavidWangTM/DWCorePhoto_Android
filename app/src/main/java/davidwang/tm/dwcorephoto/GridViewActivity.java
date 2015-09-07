@@ -2,6 +2,7 @@ package davidwang.tm.dwcorephoto;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.widget.GridView;
 
@@ -82,4 +83,8 @@ public class GridViewActivity extends BaseActivity {
     }
 
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        return super.onKeyDown(keyCode, event);
+    }
 }

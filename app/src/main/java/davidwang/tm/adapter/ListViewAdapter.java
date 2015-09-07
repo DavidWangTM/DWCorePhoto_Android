@@ -57,15 +57,13 @@ public class ListViewAdapter extends BaseAdapter{
         ViewHolder holder = null;
         if (convertView == null) {
             holder = new ViewHolder();
-            convertView = View.inflate(context,
-                    R.layout.list_view, null);
+            convertView = View.inflate(context, R.layout.list_view, null);
             holder.list_img = (ImageView)convertView.findViewById(R.id.list_img);
 
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-
 
         ImageLoaders.setsendimg(info.url,holder.list_img);
         holder.list_img.setOnClickListener(new ImageOnclick(position,holder.list_img));
@@ -89,14 +87,13 @@ public class ListViewAdapter extends BaseAdapter{
 
         @Override
         public void onClick(View v) {
-
             ListViewActivity activity = (ListViewActivity)context;
             View c = activity.listView.getChildAt(0);
             int top = c.getTop();
             int firstVisiblePosition = activity.listView.getFirstVisiblePosition();
             Log.e("1","高=="+top+"="+firstVisiblePosition);
             bdInfo.x = imageView.getLeft();
-            bdInfo.y = imageView.getTop() + (index - firstVisiblePosition)  * dip2px(70) + top;
+            bdInfo.y = dip2px(7) + (index - firstVisiblePosition)  * dip2px(70) + top;
             bdInfo.width = imageView.getLayoutParams().width;
             bdInfo.height = imageView.getLayoutParams().height;
             Intent intent = new Intent(context, PreviewImage.class);

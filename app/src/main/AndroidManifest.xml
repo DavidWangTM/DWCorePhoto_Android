@@ -33,6 +33,10 @@
             android:name=".GridViewActivity"
             android:theme="@style/Theme" >
         </activity>
+        <activity
+            android:name=".MixShowActivity"
+            android:theme="@style/Theme" >
+        </activity>
     </application>
 
 </manifest>
