@@ -2,7 +2,6 @@ package davidwang.tm.dwcorephoto;
 
 import android.os.Bundle;
 import android.support.v4.view.MotionEventCompat;
-import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -29,18 +28,17 @@ public class ListViewActivity extends BaseActivity implements View.OnTouchListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_view);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
         findID();
         InData();
         Listener();
+        AddToolbar();
     }
 
     @Override
     protected void findID() {
         super.findID();
         listView = (ListView)findViewById(R.id.listview);
-        relative = (RelativeLayout)findViewById(R.id.relative);
+//        relative = (RelativeLayout)findViewById(R.id.relative);
     }
 
     @Override

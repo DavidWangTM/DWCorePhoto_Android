@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.support.v7.app.ActionBar;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,12 +47,11 @@ public class PreviewImage extends BaseActivity implements OnPageChangeListener {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_browseimage);
-		ActionBar actionBar = getSupportActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(true);
 		findID();
 		Listener();
 		InData();
 		getValue();
+		setToolbar(0xff000000);
 	}
 
 	@Override
@@ -189,12 +187,11 @@ public class PreviewImage extends BaseActivity implements OnPageChangeListener {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		// 监听返回点击事件
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			setResult(RESULT_OK);
-			finish();
+			viewpager.setVisibility(View.GONE);
+			showimg.setVisibility(View.VISIBLE);
+			setShowimage();
 		}
-		// 返回true,吞掉back事件
 		return true;
 	}
 
@@ -210,4 +207,5 @@ public class PreviewImage extends BaseActivity implements OnPageChangeListener {
 		super.EndMove();
 		finish();
 	}
+
 }

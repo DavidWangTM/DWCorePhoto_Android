@@ -1,12 +1,16 @@
 package davidwang.tm.dwcorephoto;
 
+import android.annotation.TargetApi;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -19,6 +23,7 @@ import com.facebook.rebound.SpringUtil;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import davidwang.tm.model.ImageBDInfo;
 import davidwang.tm.model.ImageInfo;
@@ -57,6 +62,8 @@ public class BaseActivity extends AppCompatActivity {
     protected float to_y = 0;
     private float tx;
     private float ty;
+    private int statusBarHeight;
+    private int titleBarHeight;
 
 
     @Override
@@ -65,7 +72,51 @@ public class BaseActivity extends AppCompatActivity {
         DisplayMetrics dm =getResources().getDisplayMetrics();
         Width = dm.widthPixels;
         Height = dm.heightPixels;
+        setToolbar(0xff009688);
+        Rect frame = new Rect();
+        getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
+        statusBarHeight = frame.top;
+        int contentTop = getWindow().findViewById(Window.ID_ANDROID_CONTENT).getTop();
+        //statusBarHeight是上面所求的状态栏的高度
+        titleBarHeight = contentTop - statusBarHeight;
     }
+
+    protected void setToolbar(int color){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            setTranslucentStatus(true);
+        }
+        SystemBarTintManager tintManager = new SystemBarTintManager(this);
+        // enable status bar tint
+        tintManager.setStatusBarTintEnabled(true);
+        // enable navigation bar tint
+        tintManager.setNavigationBarTintEnabled(true);
+//        int color = Color.argb(255, Color.red(255), Color.green(255), Color.blue(255));
+        tintManager.setTintColor(color);
+
+    }
+
+    @TargetApi(19)
+    private void setTranslucentStatus(boolean on) {
+        Window win = getWindow();
+        WindowManager.LayoutParams winParams = win.getAttributes();
+        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+        if (on) {
+            winParams.flags |= bits;
+        } else {
+            winParams.flags &= ~bits;
+        }
+        win.setAttributes(winParams);
+    }
+
+    /**
+     *添加头部
+     */
+    protected void AddToolbar(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.id_toolbar);
+        toolbar.setLogo(R.mipmap.ic_launcher);
+        setSupportActionBar(toolbar);
+    }
+
 
     /**
      * 获取资源
@@ -119,8 +170,6 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void getValue(){
-//        ActionBar actionBar = getSupportActionBar();
-//        actionBar.hide();
         showimg = new ImageView(this);
         showimg.setScaleType(ImageView.ScaleType.CENTER_CROP);
         ImageLoaders.setsendimg(imageInfo.url,showimg);
@@ -148,14 +197,8 @@ public class BaseActivity extends AppCompatActivity {
     protected void setShowimage(){
         if (mSpring.getEndValue() == 0){
             mSpring.setSpringConfig(SpringConfig.fromOrigamiTensionAndFriction(170, 5));
-            Rect frame = new Rect();
-            getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
-            int statusBarHeight = frame.top;
-            int contentTop = getWindow().findViewById(Window.ID_ANDROID_CONTENT).getTop();
-    //statusBarHeight是上面所求的状态栏的高度
-            int titleBarHeight = contentTop - statusBarHeight;
             tx = Width/2 - (bdInfo.x+img_w/2);
-            ty = (Height - statusBarHeight - titleBarHeight )/2-(bdInfo.y+img_h/2) - 25;
+            ty = Height/2-(bdInfo.y+img_h/2);
             MoveView();
             return;
         }

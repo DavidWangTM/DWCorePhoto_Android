@@ -1,16 +1,28 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:clipToPadding="false"
+    android:fitsSystemWindows="true"
+    android:background="@android:color/white"
     tools:context="davidwang.tm.dwcorephoto.SingleShow">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/id_toolbar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:background="@color/material_blue_500"
+        />
+
 
     <ImageView
         android:id="@+id/show_img"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
         android:background="#888888"
         android:scaleType="centerCrop"
         />
@@ -24,4 +36,4 @@
         >
         </RelativeLayout>
 
-</RelativeLayout>
+</LinearLayout>

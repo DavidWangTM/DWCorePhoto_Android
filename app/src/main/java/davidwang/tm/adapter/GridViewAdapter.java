@@ -102,7 +102,7 @@ public class GridViewAdapter extends BaseAdapter{
             bdInfo.width = (activity.Width - 3 * dip2px(2))/3;
             bdInfo.height = bdInfo.width;
             bdInfo.x = dip2px(1) + b * bdInfo.width + b * dip2px(2);
-            bdInfo.y = dip2px(1) + bdInfo.height * (a - firstVisiblePosition) + top + (a - firstVisiblePosition) *dip2px(2);
+            bdInfo.y = dip2px(1) + bdInfo.height * (a - firstVisiblePosition) + top + (a - firstVisiblePosition) *dip2px(2) + activity.gridView.getTop() - dip2px(1);
             Intent intent = new Intent(context, PreviewImage.class);
             intent.putExtra("data", (Serializable) data);
             intent.putExtra("bdinfo",bdInfo);

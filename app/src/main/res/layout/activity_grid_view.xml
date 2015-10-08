@@ -1,7 +1,17 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:clipToPadding="false"
+    android:fitsSystemWindows="true"
     tools:context="davidwang.tm.dwcorephoto.GridViewActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/id_toolbar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:background="@color/material_blue_500"
+        />
 
 
     <GridView
@@ -15,4 +25,4 @@
         android:verticalSpacing="2dp" >
     </GridView>
 
-</RelativeLayout>
+</LinearLayout>

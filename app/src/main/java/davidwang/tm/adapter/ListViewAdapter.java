@@ -2,7 +2,6 @@ package davidwang.tm.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -91,9 +90,8 @@ public class ListViewAdapter extends BaseAdapter{
             View c = activity.listView.getChildAt(0);
             int top = c.getTop();
             int firstVisiblePosition = activity.listView.getFirstVisiblePosition();
-            Log.e("1","高=="+top+"="+firstVisiblePosition);
             bdInfo.x = imageView.getLeft();
-            bdInfo.y = dip2px(7) + (index - firstVisiblePosition)  * dip2px(70) + top;
+            bdInfo.y = dip2px(7) + (index - firstVisiblePosition)  * dip2px(70) + top + activity.listView.getTop();
             bdInfo.width = imageView.getLayoutParams().width;
             bdInfo.height = imageView.getLayoutParams().height;
             Intent intent = new Intent(context, PreviewImage.class);

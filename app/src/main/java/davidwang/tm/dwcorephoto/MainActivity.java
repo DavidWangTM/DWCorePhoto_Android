@@ -2,7 +2,6 @@ package davidwang.tm.dwcorephoto;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -12,7 +11,7 @@ import java.util.ArrayList;
 import davidwang.tm.adapter.MainListAdapter;
 import davidwang.tm.model.MainInfo;
 
-public class MainActivity extends AppCompatActivity implements  AdapterView.OnItemClickListener{
+public class MainActivity extends BaseActivity implements  AdapterView.OnItemClickListener{
 
     private ListView main_list;
     private MainListAdapter adapter;
@@ -26,15 +25,15 @@ public class MainActivity extends AppCompatActivity implements  AdapterView.OnIt
         inData();
         adapter = new MainListAdapter(this,data);
         main_list.setAdapter(adapter);
+        AddToolbar();
     }
 
-
-    private void findID(){
+    protected void findID(){
         main_list = (ListView)findViewById(R.id.main_list);
         main_list.setOnItemClickListener(this);
     }
 
-    private void inData() {
+    protected void inData() {
         data = new ArrayList<MainInfo>();
         MainInfo info = new MainInfo();
         info.content = "SingleShow";
@@ -47,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements  AdapterView.OnIt
         MainInfo info2 = new MainInfo();
         info2.content = "CollectionShow";
         data.add(info2);
+
         MainInfo info3 = new MainInfo();
         info3.content = "MixShow";
         data.add(info3);

@@ -2,17 +2,16 @@
     android:id="@+id/MainView"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
     android:background="@android:color/black"
      >
-     
+
     <davidwang.tm.view.HackyViewPager
         android:id="@+id/bi_viewpager"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:visibility="gone"
-        >
+        android:layout_below="@+id/id_toolbar">
     </davidwang.tm.view.HackyViewPager>
-    
-        
+
+
 </RelativeLayout>

@@ -2,7 +2,6 @@ package davidwang.tm.dwcorephoto;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,11 +24,9 @@ public class SingleShow extends BaseActivity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_show);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
         findID();
         Listener();
-
+        AddToolbar();
     }
 
     @Override

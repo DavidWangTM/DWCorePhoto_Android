@@ -1,7 +1,6 @@
 package davidwang.tm.dwcorephoto;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.widget.GridView;
@@ -21,10 +20,9 @@ public class GridViewActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grid_view);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
         findID();
         InData();
+        AddToolbar();
 
     }
 

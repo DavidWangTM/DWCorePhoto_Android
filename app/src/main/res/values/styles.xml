@@ -1,7 +1,19 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+
+    <style name="AppBaseTheme" parent="Theme.AppCompat.NoActionBar">
+
+        <!-- ActionBar的颜色 -->
+        <item name="colorPrimary">@color/material_blue_500</item>
+        <!-- 状态栏颜色 -->
+        <item name="colorPrimaryDark">@color/material_blue_700</item>
+        <!-- 字体颜色 -->
+        <item name="colorAccent">@color/material_green_A200</item>
+
+    </style>
+
+    <style name="AppTheme" parent="AppBaseTheme">
         <!-- Customize your theme here. -->
     </style>
 
