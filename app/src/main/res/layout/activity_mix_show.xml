@@ -16,13 +16,14 @@
         android:background="@color/material_blue_500"
         />
 
-    <ListView
+    <davidwang.tm.view.PullToZoomListView
         android:id="@+id/mixlist"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:dividerHeight="1dp"
         android:fadingEdge="none"
         android:fastScrollEnabled="false"
+        android:listSelector="@android:color/transparent"
         />
 
 
