@@ -247,7 +247,6 @@ public class PullToZoomListView extends ListView implements
 						.getLayoutParams();
 				if (f2 > 1.0F) {
 					localLayoutParams.height = PullToZoomListView.this.mHeaderHeight;
-					;
 					localLayoutParams.height = ((int) (f2 * PullToZoomListView.this.mHeaderHeight));
 					PullToZoomListView.this.mHeaderContainer
 							.setLayoutParams(localLayoutParams);

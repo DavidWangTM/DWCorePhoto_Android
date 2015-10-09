@@ -86,6 +86,8 @@ public class PreviewImage extends BaseActivity implements OnPageChangeListener {
 			moveheight = dip2px(70);
 		}else if (type == 2){
 			moveheight = (Width - 3 * dip2px(2))/3;
+		}else if (type == 3){
+			moveheight = (Width - dip2px(80) - dip2px(2))/3;
 		}
 	}
 
@@ -118,10 +120,15 @@ public class PreviewImage extends BaseActivity implements OnPageChangeListener {
 			int b = index % 3;
 			int a1 = arg0 / 3;
 			int b1 = arg0 % 3;
-			float img_w = (Width - 3 * dip2px(2))/3;
-			to_y = (a1 - a) * img_w + (a1 - a) * dip2px(2);
-			to_x = (b1 - b) * img_w + (b1 - b) * dip2px(2);
-
+			to_y = (a1 - a) * moveheight + (a1 - a) * dip2px(2);
+			to_x = (b1 - b) * moveheight + (b1 - b) * dip2px(2);
+		}else if (type == 3){
+			int	a = index / 3;
+			int b = index % 3;
+			int a1 = arg0 / 3;
+			int b1 = arg0 % 3;
+			to_y = (a1 - a) * moveheight + (a1 - a) * dip2px(1);
+			to_x = (b1 - b) * moveheight + (b1 - b) * dip2px(1);
 		}
 	}
 

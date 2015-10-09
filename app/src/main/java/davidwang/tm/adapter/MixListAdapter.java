@@ -124,6 +124,7 @@ public class MixListAdapter  extends BaseAdapter {
                 holder.imgview[i].getLayoutParams().width = (int)width;
                 holder.imgview[i].getLayoutParams().height = (int)width;
                 ImageLoaders.setsendimg(imageInfo.url, holder.imgview[i]);
+                holder.imgview[i].setOnClickListener(new GridOnclick(position,holder.imgview[i],i,holder.gridview));
             }
         }
 
@@ -154,7 +155,6 @@ public class MixListAdapter  extends BaseAdapter {
             View c = activity.mixlist.getChildAt(0);
             int top = c.getTop();
             int firstVisiblePosition = activity.mixlist.getFirstVisiblePosition();
-            Log.e("1",top+"高"+"-"+index+"-fir-"+firstVisiblePosition+"-top-"+c.getHeight());
             bdInfo.x = imageView.getLeft();
             bdInfo.y = imageView.getTop() + ((index + 1) - firstVisiblePosition)  * c.getHeight() + top + activity.mixlist.getTop();
             bdInfo.width = imageView.getLayoutParams().width;
@@ -166,6 +166,40 @@ public class MixListAdapter  extends BaseAdapter {
             intent.putExtra("bdinfo",bdInfo);
             intent.putExtra("index",0);
             intent.putExtra("type",0);
+            context.startActivity(intent);
+        }
+    }
+
+    class GridOnclick implements View.OnClickListener{
+
+        private int index;
+        private int row;
+        private ImageView imageView;
+        private GridLayout gridLayout;
+
+        public GridOnclick(int index,ImageView imageView,int row,GridLayout gridLayout){
+            this.index = index;
+            this.imageView = imageView;
+            this.gridLayout = gridLayout;
+            this.row = row;
+        }
+
+        @Override
+        public void onClick(View v) {
+            View c = activity.mixlist.getChildAt(0);
+            int top = c.getTop();
+            int firstVisiblePosition = activity.mixlist.getFirstVisiblePosition();
+            bdInfo.x = imageView.getLeft() + gridLayout.getLeft();
+            bdInfo.y = gridLayout.getTop()+imageView.getTop() + ((index + 1) - firstVisiblePosition)  * c.getHeight() + top + activity.mixlist.getTop();
+            bdInfo.width = imageView.getLayoutParams().width;
+            bdInfo.height = imageView.getLayoutParams().height;
+            Intent intent = new Intent(context, PreviewImage.class);
+            ArrayList<ImageInfo> info = data.get(index).data;
+            Log.e("1",info.toString());
+            intent.putExtra("data", (Serializable) info);
+            intent.putExtra("bdinfo",bdInfo);
+            intent.putExtra("index",row);
+            intent.putExtra("type",3);
             context.startActivity(intent);
         }
     }
