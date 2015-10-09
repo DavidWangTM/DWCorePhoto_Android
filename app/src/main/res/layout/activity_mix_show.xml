@@ -23,7 +23,7 @@
         android:dividerHeight="1dp"
         android:fadingEdge="none"
         android:fastScrollEnabled="false"
-        android:listSelector="@android:color/transparent"
+        android:listSelector="#eaeaea"
         />
 
 
