@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,6 +76,7 @@ public class PreviewImage extends BaseActivity implements OnPageChangeListener {
 		index = getIntent().getIntExtra("index", 0);
 		type = getIntent().getIntExtra("type",0);
 		ImgList = (ArrayList<ImageInfo>)getIntent().getSerializableExtra("data");
+		Log.e("1",ImgList.size()+"数量");
 		imageInfo = ImgList.get(index);
 		bdInfo = (ImageBDInfo)getIntent().getSerializableExtra("bdinfo");
 		pagerAdapter = new SamplePagerAdapter();

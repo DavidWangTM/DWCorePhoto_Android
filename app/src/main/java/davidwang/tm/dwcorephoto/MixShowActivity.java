@@ -15,7 +15,7 @@ import davidwang.tm.view.PullToZoomListView;
 
 public class MixShowActivity extends BaseActivity implements AdapterView.OnItemClickListener{
 
-    private PullToZoomListView mixlist;
+    public PullToZoomListView mixlist;
     private MixListAdapter adapterData;
     private ArrayList<Mixinfo> data;
 
@@ -56,8 +56,25 @@ public class MixShowActivity extends BaseActivity implements AdapterView.OnItemC
         info2.data = AddData(1,1);
         data.add(info2);
 
+        Mixinfo info3 = new Mixinfo();
+        info3.username = "DavidWang";
+        info3.userimg = "http://imgsrc.baidu.com/forum/pic/item/8b82b9014a90f603fa18d50f3912b31bb151edca.jpg";
+        info3.content = "这是一个单张的演示";
+        info3.data = AddData(1,2);
+        data.add(info3);
+
+        for (int i = 2; i < 10; i++){
+            Mixinfo info4 = new Mixinfo();
+            info4.username = "DavidWang";
+            info4.userimg = "http://imgsrc.baidu.com/forum/pic/item/8b82b9014a90f603fa18d50f3912b31bb151edca.jpg";
+            info4.content = "这是"+i+"个单张的演示";
+            info4.data = AddData(i,2);
+            data.add(info4);
+        }
+
         adapterData = new MixListAdapter(MixShowActivity.this,data);
         mixlist.setAdapter(adapterData);
+
     }
 
     private ArrayList<ImageInfo> AddData(int num,int type){

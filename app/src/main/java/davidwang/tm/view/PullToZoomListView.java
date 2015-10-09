@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.SystemClock;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +60,6 @@ public class PullToZoomListView extends ListView implements
 
 	private void endScraling() {
 		if (this.mHeaderContainer.getBottom() >= this.mHeaderHeight)
-			Log.d("mmm", "endScraling");
 		this.mScalingRunnalable.startAnimation(200L);
 	}
 
@@ -120,15 +118,11 @@ public class PullToZoomListView extends ListView implements
 	@Override
 	public void onScroll(AbsListView paramAbsListView, int paramInt1,
 			int paramInt2, int paramInt3) {
-		Log.d("mmm", "onScroll");
 		float f = this.mHeaderHeight - this.mHeaderContainer.getBottom();
-		Log.d("mmm", "f|" + f);
 		if ((f > 0.0F) && (f < this.mHeaderHeight)) {
-			Log.d("mmm", "1");
 			int i = (int) (0.65D * f);
 			this.mHeaderImage.scrollTo(0, -i);
 		} else if (this.mHeaderImage.getScrollY() != 0) {
-			Log.d("mmm", "2");
 			this.mHeaderImage.scrollTo(0, 0);
 		}
 		if (this.mOnScrollListener != null) {
@@ -144,7 +138,6 @@ public class PullToZoomListView extends ListView implements
 	}
 
 	public boolean onTouchEvent(MotionEvent paramMotionEvent) {
-		Log.d("mmm", "" + (0xFF & paramMotionEvent.getAction()));
 		switch (0xFF & paramMotionEvent.getAction()) {
 		case 4:
 		case 0:
@@ -157,11 +150,8 @@ public class PullToZoomListView extends ListView implements
 			this.mLastScale = (this.mHeaderContainer.getBottom() / this.mHeaderHeight);
 			break;
 		case 2:
-			Log.d("mmm", "mActivePointerId" + mActivePointerId);
 			int j = paramMotionEvent.findPointerIndex(this.mActivePointerId);
 			if (j == -1) {
-				Log.e("PullToZoomListView", "Invalid pointerId="
-						+ this.mActivePointerId + " in onTouchEvent");
 			} else {
 				if (this.mLastMotionY == -1.0F)
 					this.mLastMotionY = paramMotionEvent.getY(j);
@@ -256,7 +246,6 @@ public class PullToZoomListView extends ListView implements
 				localLayoutParams = PullToZoomListView.this.mHeaderContainer
 						.getLayoutParams();
 				if (f2 > 1.0F) {
-					Log.d("mmm", "f2>1.0");
 					localLayoutParams.height = PullToZoomListView.this.mHeaderHeight;
 					;
 					localLayoutParams.height = ((int) (f2 * PullToZoomListView.this.mHeaderHeight));

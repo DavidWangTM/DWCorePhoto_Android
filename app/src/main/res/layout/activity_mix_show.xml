@@ -21,9 +21,10 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:dividerHeight="1dp"
+        android:divider="#eaeaea"
         android:fadingEdge="none"
         android:fastScrollEnabled="false"
-        android:listSelector="#eaeaea"
+        android:listSelector="@android:color/transparent"
         />
 
 

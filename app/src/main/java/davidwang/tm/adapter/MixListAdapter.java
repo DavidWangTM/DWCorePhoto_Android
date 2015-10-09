@@ -1,6 +1,8 @@
 package davidwang.tm.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -8,9 +10,11 @@ import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import davidwang.tm.dwcorephoto.MixShowActivity;
+import davidwang.tm.dwcorephoto.PreviewImage;
 import davidwang.tm.dwcorephoto.R;
 import davidwang.tm.model.ImageBDInfo;
 import davidwang.tm.model.ImageInfo;
@@ -65,11 +69,9 @@ public class MixListAdapter  extends BaseAdapter {
             holder.usercontent = (TextView)convertView.findViewById(R.id.usercontent);
             holder.gridview = (GridLayout)convertView.findViewById(R.id.gridview);
             holder.showimage = (ImageView)convertView.findViewById(R.id.showimage);
-
             for (int i = 0; i < 9 ; i++){
                 holder.imgview[i] = (ImageView)convertView.findViewById(ImagaId[i]);
             }
-
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -78,6 +80,8 @@ public class MixListAdapter  extends BaseAdapter {
         ImageLoaders.setsendimg(info.userimg, holder.list_img);
         holder.username.setText(info.username);
         holder.usercontent.setText(info.content);
+        holder.showimage.setVisibility(View.GONE);
+        holder.gridview.setVisibility(View.GONE);
         if (info.data.size() == 1){
             holder.showimage.setVisibility(View.VISIBLE);
             holder.gridview.setVisibility(View.GONE);
@@ -97,12 +101,30 @@ public class MixListAdapter  extends BaseAdapter {
             ImageLoaders.setsendimg(imageInfo.url, holder.showimage);
             holder.showimage.getLayoutParams().width = (int)width;
             holder.showimage.getLayoutParams().height = (int)height;
-
+            holder.showimage.setOnClickListener(new SingleOnclick(position,holder.showimage));
         }else if(info.data.size() > 1){
             holder.showimage.setVisibility(View.GONE);
             holder.gridview.setVisibility(View.VISIBLE);
-            float width = (activity.Width - dip2px(80))/3;
+            int a = info.data.size()/3;
+            int b = info.data.size()%3;
+            if (b > 0){
+                a++;
+            }
+            float width = (activity.Width - dip2px(80) - dip2px(2))/3;
+            holder.gridview.getLayoutParams().height = (int)(a*width);
+            Log.e("1",info.data.size() + "哈哈");
 
+            for (int i = 0 ; i < 9 ; i++){
+                holder.imgview[i].setVisibility(View.GONE);
+            }
+
+            for (int i = 0 ; i < info.data.size(); i++){
+                ImageInfo imageInfo = info.data.get(i);
+                holder.imgview[i].setVisibility(View.VISIBLE);
+                holder.imgview[i].getLayoutParams().width = (int)width;
+                holder.imgview[i].getLayoutParams().height = (int)width;
+                ImageLoaders.setsendimg(imageInfo.url, holder.imgview[i]);
+            }
         }
 
         return convertView;
@@ -115,8 +137,37 @@ public class MixListAdapter  extends BaseAdapter {
         GridLayout gridview;
         ImageView showimage;
         ImageView imgview [] = new ImageView[9];
+    }
 
+    class SingleOnclick implements View.OnClickListener{
 
+        private int index;
+        private ImageView imageView;
+
+        public SingleOnclick(int index,ImageView imageView){
+            this.index = index;
+            this.imageView = imageView;
+        }
+
+        @Override
+        public void onClick(View v) {
+            View c = activity.mixlist.getChildAt(0);
+            int top = c.getTop();
+            int firstVisiblePosition = activity.mixlist.getFirstVisiblePosition();
+            Log.e("1",top+"高"+"-"+index+"-fir-"+firstVisiblePosition+"-top-"+c.getHeight());
+            bdInfo.x = imageView.getLeft();
+            bdInfo.y = imageView.getTop() + ((index + 1) - firstVisiblePosition)  * c.getHeight() + top + activity.mixlist.getTop();
+            bdInfo.width = imageView.getLayoutParams().width;
+            bdInfo.height = imageView.getLayoutParams().height;
+            Intent intent = new Intent(context, PreviewImage.class);
+            ArrayList<ImageInfo> info = data.get(index).data;
+            Log.e("1",info.toString());
+            intent.putExtra("data", (Serializable) info);
+            intent.putExtra("bdinfo",bdInfo);
+            intent.putExtra("index",0);
+            intent.putExtra("type",0);
+            context.startActivity(intent);
+        }
     }
 
     public int dip2px(float dpValue) {
