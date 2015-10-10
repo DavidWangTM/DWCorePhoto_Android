@@ -179,11 +179,11 @@ public class BaseActivity extends AppCompatActivity {
         // Wait for layout.
         y_img_h = imageInfo.height*Width/imageInfo.width;
         size_h = y_img_h/img_h;
-
         RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams((int)bdInfo.width,(int)bdInfo.height);
-        p.setMargins((int)bdInfo.x,(int)bdInfo.y,0,0);
         showimg.setLayoutParams(p);
+        p.setMargins((int)bdInfo.x,(int)bdInfo.y,(int)(Width - (bdInfo.x+bdInfo.width)),(int)(Height - (bdInfo.y + bdInfo.height)));
         MainView.addView(showimg);
+        showimg.setVisibility(View.VISIBLE);
         new Handler().postDelayed(new Runnable() {
             public void run() {
                 setShowimage();
@@ -207,7 +207,6 @@ public class BaseActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             public void run() {
                 //execute the task
-//                        show_img.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 MoveBackView();
             }
         }, 300);

@@ -112,7 +112,6 @@ public class MixListAdapter  extends BaseAdapter {
             }
             float width = (activity.Width - dip2px(80) - dip2px(2))/3;
             holder.gridview.getLayoutParams().height = (int)(a*width);
-            Log.e("1",info.data.size() + "哈哈");
 
             for (int i = 0 ; i < 9 ; i++){
                 holder.imgview[i].setVisibility(View.GONE);
@@ -152,11 +151,18 @@ public class MixListAdapter  extends BaseAdapter {
 
         @Override
         public void onClick(View v) {
+
             View c = activity.mixlist.getChildAt(0);
             int top = c.getTop();
             int firstVisiblePosition = activity.mixlist.getFirstVisiblePosition();
+
+            float height  = 0.0f;
+            for (int i = 0 ; i < ((index + 1) - firstVisiblePosition) ; i++){
+                View view = activity.mixlist.getChildAt(i);
+                height += view.getHeight();
+            }
             bdInfo.x = imageView.getLeft();
-            bdInfo.y = imageView.getTop() + ((index + 1) - firstVisiblePosition)  * c.getHeight() + top + activity.mixlist.getTop();
+            bdInfo.y = imageView.getTop() +  height + top + activity.mixlist.getTop();
             bdInfo.width = imageView.getLayoutParams().width;
             bdInfo.height = imageView.getLayoutParams().height;
             Intent intent = new Intent(context, PreviewImage.class);
@@ -189,8 +195,13 @@ public class MixListAdapter  extends BaseAdapter {
             View c = activity.mixlist.getChildAt(0);
             int top = c.getTop();
             int firstVisiblePosition = activity.mixlist.getFirstVisiblePosition();
+            float height  = 0.0f;
+            for (int i = 0 ; i < ((index + 1) - firstVisiblePosition) ; i++){
+                View view = activity.mixlist.getChildAt(i);
+                height += view.getHeight();
+            }
             bdInfo.x = imageView.getLeft() + gridLayout.getLeft();
-            bdInfo.y = gridLayout.getTop()+imageView.getTop() + ((index + 1) - firstVisiblePosition)  * c.getHeight() + top + activity.mixlist.getTop();
+            bdInfo.y = gridLayout.getTop()+ imageView.getTop() + height + top + activity.mixlist.getTop();
             bdInfo.width = imageView.getLayoutParams().width;
             bdInfo.height = imageView.getLayoutParams().height;
             Intent intent = new Intent(context, PreviewImage.class);
