@@ -29,7 +29,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'com.github.chrisbanes.photoview:library:1.2.3'
     compile 'com.facebook.rebound:rebound:0.3.8'
-    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
     compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
+    compile 'com.nhaarman.listviewanimations:lib-core:3.1.0@aar'
 }

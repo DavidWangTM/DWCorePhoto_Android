@@ -10,6 +10,8 @@ import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import com.nhaarman.listviewanimations.appearance.simple.SwingLeftInAnimationAdapter;
+
 import java.util.ArrayList;
 
 import davidwang.tm.adapter.ListViewAdapter;
@@ -32,6 +34,9 @@ public class ListViewActivity extends BaseActivity implements View.OnTouchListen
         InData();
         Listener();
         AddToolbar();
+
+
+
     }
 
     @Override
@@ -40,6 +45,7 @@ public class ListViewActivity extends BaseActivity implements View.OnTouchListen
         listView = (ListView)findViewById(R.id.listview);
 //        relative = (RelativeLayout)findViewById(R.id.relative);
     }
+
 
     @Override
     public void InData() {
@@ -73,7 +79,9 @@ public class ListViewActivity extends BaseActivity implements View.OnTouchListen
             data.add(model4);
         }
         adapter = new ListViewAdapter(ListViewActivity.this,data);
-        listView.setAdapter(adapter);
+        SwingLeftInAnimationAdapter animationAdapter = new SwingLeftInAnimationAdapter(adapter);
+        animationAdapter.setAbsListView(listView);
+        listView.setAdapter(animationAdapter);
 
     }
 
