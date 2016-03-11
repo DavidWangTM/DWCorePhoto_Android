@@ -33,7 +33,9 @@ public class ImageLoaders {
 		if (optionstop == null) {
 			optionstop = new DisplayImageOptions.Builder()
 					.showImageOnLoading(0).showImageForEmptyUri(0)
-					.showImageOnFail(0).cacheInMemory(true).cacheOnDisk(true)
+					.showImageOnFail(0)
+					.cacheInMemory(true)
+					.cacheOnDisk(true)
 					.considerExifParams(true)
 					.displayer(new RoundedBitmapDisplayer(dis)).build();
 		}
@@ -47,8 +49,10 @@ public class ImageLoaders {
 			sendoptions = new DisplayImageOptions.Builder()
 					.showImageOnLoading(0)
 					.showImageForEmptyUri(0)
-					.showImageOnFail(0).cacheInMemory(true)
-					.cacheOnDisk(true).considerExifParams(true)
+					.showImageOnFail(0)
+					.cacheInMemory(true)
+					.cacheOnDisk(true)
+					.considerExifParams(false)
 					.bitmapConfig(Bitmap.Config.RGB_565)
 					.imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
 					.build();

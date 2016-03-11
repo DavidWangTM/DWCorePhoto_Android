@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -41,7 +43,10 @@ public class PreviewImage extends BaseActivity implements OnPageChangeListener {
 
 	private float moveheight;
 	private int type;
-	
+
+	private LinearLayout AddLayout;
+	private View moveView;
+	private RelativeLayout addrelative;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +58,7 @@ public class PreviewImage extends BaseActivity implements OnPageChangeListener {
 		InData();
 		getValue();
 		setToolbar(0xff000000);
+		AddInstructionsView();
 	}
 
 	@Override
@@ -60,6 +66,9 @@ public class PreviewImage extends BaseActivity implements OnPageChangeListener {
 		// TODO Auto-generated method stub
 		super.findID();
 		viewpager = (HackyViewPager) findViewById(R.id.bi_viewpager);
+		AddLayout = (LinearLayout)findViewById(R.id.AddLayout);
+		moveView = (View)findViewById(R.id.moveView);
+		addrelative = (RelativeLayout)findViewById(R.id.addrelative);
 	}
 
 	@Override
@@ -82,6 +91,10 @@ public class PreviewImage extends BaseActivity implements OnPageChangeListener {
 		pagerAdapter = new SamplePagerAdapter();
 		viewpager.setAdapter(pagerAdapter);
 		viewpager.setCurrentItem(index);
+		moveView.setX(dip2px(10) * index);
+		if (ImgList.size() == 0){
+			addrelative.setVisibility(View.GONE);
+		}
 		if (type == 1){
 			moveheight = dip2px(70);
 		}else if (type == 2){
@@ -95,12 +108,12 @@ public class PreviewImage extends BaseActivity implements OnPageChangeListener {
 	@Override
 	public void onPageScrollStateChanged(int arg0) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onPageScrolled(int arg0, float arg1, int arg2) {
 		// TODO Auto-generated method stub
+		moveView.setX(dip2px(5) + dip2px(10) * arg0+dip2px(10)*arg1);
 
 	}
 
@@ -215,6 +228,17 @@ public class PreviewImage extends BaseActivity implements OnPageChangeListener {
 	protected void EndMove() {
 		super.EndMove();
 		finish();
+	}
+
+	private void AddInstructionsView(){
+		for (int i = 0; i < ImgList.size() ; i++){
+			View addview = new View(PreviewImage.this);
+			addview.setBackgroundColor(0xffffffff);
+			LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(dip2px(5),dip2px(5));
+			addview.setLayoutParams(p);
+			p.setMargins(dip2px(5),0,0,0);
+			AddLayout.addView(addview);
+		}
 	}
 
 }
