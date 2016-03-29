@@ -28,7 +28,6 @@ public class MixShowActivity extends BaseActivity implements AdapterView.OnItemC
         AddToolbar();
     }
 
-
     @Override
     protected void findID() {
         super.findID();
@@ -67,7 +66,7 @@ public class MixShowActivity extends BaseActivity implements AdapterView.OnItemC
             Mixinfo info4 = new Mixinfo();
             info4.username = "DavidWang";
             info4.userimg = "http://imgsrc.baidu.com/forum/pic/item/8b82b9014a90f603fa18d50f3912b31bb151edca.jpg";
-            info4.content = "这是"+i+"个单张的演示";
+            info4.content = "这是"+i+"个单张的演示测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度";
             info4.data = AddData(i,2);
             data.add(info4);
         }

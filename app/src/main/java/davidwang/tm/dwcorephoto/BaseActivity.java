@@ -92,7 +92,6 @@ public class BaseActivity extends AppCompatActivity {
         tintManager.setNavigationBarTintEnabled(true);
 //        int color = Color.argb(255, Color.red(255), Color.green(255), Color.blue(255));
         tintManager.setTintColor(color);
-
     }
 
     @TargetApi(19)
@@ -189,10 +188,7 @@ public class BaseActivity extends AppCompatActivity {
                 setShowimage();
             }
         }, 300);
-
-
     }
-
 
     protected void setShowimage(){
         if (mSpring.getEndValue() == 0){
