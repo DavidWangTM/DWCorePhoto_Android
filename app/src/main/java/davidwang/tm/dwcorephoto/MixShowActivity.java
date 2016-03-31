@@ -1,8 +1,11 @@
 package davidwang.tm.dwcorephoto;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -28,6 +31,7 @@ public class MixShowActivity extends BaseActivity implements AdapterView.OnItemC
     private EditText editText;
     private Button sendBtn;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +48,7 @@ public class MixShowActivity extends BaseActivity implements AdapterView.OnItemC
         mixlist.getHeaderView().setImageResource(R.mipmap.mixheadimg);
         mixlist.getHeaderView().setScaleType(ImageView.ScaleType.CENTER_CROP);
         mixlist.setOnItemClickListener(this);
-
+        mixlist.setOnTouchListener(new ListTouchEvent());
         bottomView = (RelativeLayout)findViewById(R.id.bottomView);
         editText = (EditText)findViewById(R.id.editText);
         sendBtn = (Button)findViewById(R.id.sendBtn);
@@ -118,13 +122,40 @@ public class MixShowActivity extends BaseActivity implements AdapterView.OnItemC
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Log.e("1",position+"haha");
+        hideEdit();
+    }
+
+    class ListTouchEvent implements View.OnTouchListener {
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            // TODO Auto-generated method stub
+            hideEdit();
+            return false;
+        }
+
+    }
+
+    private void hideEdit(){
+        if (bottomView.getVisibility() == View.VISIBLE){
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    //execute the task
+                    bottomView.setVisibility(View.GONE);
+                }
+            }, 300);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(editText.getWindowToken(), 0); //强制隐藏键盘
+        }
     }
 
     public void SendContent(int index){
         bottomView.setVisibility(View.VISIBLE);
         editText.setFocusable(true);
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInputFromInputMethod(editText.getWindowToken(),0);
+        editText.requestFocus();
+        InputMethodManager inputManager =
+                (InputMethodManager)editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.showSoftInput(editText, 0);
     }
 
 
