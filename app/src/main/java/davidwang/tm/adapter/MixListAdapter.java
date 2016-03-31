@@ -2,12 +2,15 @@ package davidwang.tm.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -86,6 +89,7 @@ public class MixListAdapter extends BaseAdapter {
             holder.leftText = (TextView) holder.relativeLayout.findViewById(R.id.leftText);
             holder.defaultText = (TextView) holder.relativeLayout.findViewById(R.id.defaultText);
             holder.rightText = (TextView) holder.relativeLayout.findViewById(R.id.rightText);
+            holder.contentEdit = (EditText) holder.relativeLayout.findViewById(R.id.contentEdit);
 
             holder.evaluationLayout.addView(holder.relativeLayout);
 
@@ -118,7 +122,7 @@ public class MixListAdapter extends BaseAdapter {
             ImageLoaders.setsendimg(imageInfo.url, holder.showimage);
             holder.showimage.getLayoutParams().width = (int) width;
             holder.showimage.getLayoutParams().height = (int) height;
-            holder.showimage.setOnClickListener(new SingleOnclick(position, holder.showimage,holder.allLayout));
+            holder.showimage.setOnClickListener(new SingleOnclick(position, holder.showimage, holder.allLayout));
         } else if (info.data.size() > 1) {
             holder.showimage.setVisibility(View.GONE);
             holder.gridview.setVisibility(View.VISIBLE);
@@ -154,10 +158,12 @@ public class MixListAdapter extends BaseAdapter {
         }
 
         holder.fullText.setOnClickListener(new fullTextOnclick(holder.usercontent, holder.fullText, position));
-        holder.relativeLayout.setOnClickListener(new evaluationOnclick(position));
 
-        holder.leftText.setOnClickListener(new NameOnclick(position+"我来"));
-        holder.rightText.setOnClickListener(new NameOnclick(position+"你来"));
+//        holder.contentEdit.setOnFocusChangeListener(new OnFocusChangeListener(position));
+        holder.relativeLayout.setOnClickListener(new evaluationOnclick(position, holder.contentEdit));
+
+        holder.leftText.setOnClickListener(new NameOnclick(position + "我来"));
+        holder.rightText.setOnClickListener(new NameOnclick(position + "你来"));
 
         return convertView;
     }
@@ -172,6 +178,7 @@ public class MixListAdapter extends BaseAdapter {
         LinearLayout evaluationLayout, allLayout;
         View relativeLayout;
         TextView contentText, leftText, defaultText, rightText;
+        EditText contentEdit;
     }
 
     class SingleOnclick implements View.OnClickListener {
@@ -180,7 +187,7 @@ public class MixListAdapter extends BaseAdapter {
         private ImageView imageView;
         private LinearLayout allLayout;
 
-        public SingleOnclick(int index, ImageView imageView ,LinearLayout allLayout) {
+        public SingleOnclick(int index, ImageView imageView, LinearLayout allLayout) {
             this.index = index;
             this.imageView = imageView;
             this.allLayout = allLayout;
@@ -198,7 +205,7 @@ public class MixListAdapter extends BaseAdapter {
                 View view = activity.mixlist.getChildAt(i);
                 height += view.getHeight();
             }
-            bdInfo.x = imageView.getLeft() +  allLayout.getLeft();
+            bdInfo.x = imageView.getLeft() + allLayout.getLeft();
             bdInfo.y = imageView.getTop() + height + top + activity.mixlist.getTop() + allLayout.getTop();
             bdInfo.width = imageView.getLayoutParams().width;
             bdInfo.height = imageView.getLayoutParams().height;
@@ -259,14 +266,6 @@ public class MixListAdapter extends BaseAdapter {
         return (int) (dpValue * scale + 0.5f);
     }
 
-    /**
-     * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
-     */
-    public int px2dip(float pxValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (pxValue / scale + 0.5f);
-    }
-
     class fullTextOnclick implements View.OnClickListener {
 
         private TextView usercontent;
@@ -296,19 +295,30 @@ public class MixListAdapter extends BaseAdapter {
         }
     }
 
+
     private class evaluationOnclick implements View.OnClickListener {
 
         private int index;
+        private EditText contentEdit;
 
-        evaluationOnclick(int index) {
+        evaluationOnclick(int index, EditText contentEdit) {
             this.index = index;
+            this.contentEdit = contentEdit;
         }
 
         @Override
         public void onClick(View v) {
-            activity.SendContent(index);
+            contentEdit.setFocusable(true);
+            contentEdit.requestFocus();
+            InputMethodManager inputManager = (InputMethodManager) contentEdit.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.showSoftInput(contentEdit, 0);
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    //execute the task
+                    activity.SendContent(index);
+                }
+            }, 200);
         }
-
     }
 
     ;
@@ -344,7 +354,7 @@ public class MixListAdapter extends BaseAdapter {
 
         private String name;
 
-        NameOnclick(String name){
+        NameOnclick(String name) {
             this.name = name;
         }
 
