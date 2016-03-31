@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-
     <color name="material_blue_500">#009688</color>
     <color name="material_blue_700">#00796B</color>
     <color name="material_green_A200">#FD87A9</color>
+
+    <color name="content_bg">#f2f2f2</color>
+    <color name="content_bg_press">#b2b2b2</color>
 
 </resources>

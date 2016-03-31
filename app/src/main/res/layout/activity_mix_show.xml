@@ -1,31 +1,70 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="@android:color/white"
     android:clipToPadding="false"
     android:fitsSystemWindows="true"
-    android:background="@android:color/white"
+    android:orientation="vertical"
     tools:context="davidwang.tm.dwcorephoto.MixShowActivity">
 
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/id_toolbar"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/material_blue_500"
         />
 
     <davidwang.tm.view.PullToZoomListView
         android:id="@+id/mixlist"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:dividerHeight="1dp"
+        android:layout_height="match_parent"
         android:divider="#eaeaea"
+        android:dividerHeight="1dp"
         android:fadingEdge="none"
         android:fastScrollEnabled="false"
         android:listSelector="@android:color/transparent"
-        />
+        android:layout_below="@+id/id_toolbar"
+        android:layout_above="@+id/bottomView" />
 
 
-</LinearLayout>
+    <RelativeLayout
+        android:id="@+id/bottomView"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        android:background="@android:color/white">
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="3dp"
+            android:layout_toLeftOf="@+id/sendBtn"
+            android:hint="回复XXXX:"
+            android:textColor="@android:color/black"
+            android:textColorHint="#b2b2b2" />
+
+        <Button
+            android:id="@+id/sendBtn"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="3dp"
+            android:text="发送" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/content_bg_press" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

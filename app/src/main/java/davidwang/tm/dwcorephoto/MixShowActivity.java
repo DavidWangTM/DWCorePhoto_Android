@@ -1,10 +1,15 @@
 package davidwang.tm.dwcorephoto;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 
@@ -18,6 +23,10 @@ public class MixShowActivity extends BaseActivity implements AdapterView.OnItemC
     public PullToZoomListView mixlist;
     private MixListAdapter adapterData;
     private ArrayList<Mixinfo> data;
+
+    private RelativeLayout bottomView;
+    private EditText editText;
+    private Button sendBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +44,10 @@ public class MixShowActivity extends BaseActivity implements AdapterView.OnItemC
         mixlist.getHeaderView().setImageResource(R.mipmap.mixheadimg);
         mixlist.getHeaderView().setScaleType(ImageView.ScaleType.CENTER_CROP);
         mixlist.setOnItemClickListener(this);
+
+        bottomView = (RelativeLayout)findViewById(R.id.bottomView);
+        editText = (EditText)findViewById(R.id.editText);
+        sendBtn = (Button)findViewById(R.id.sendBtn);
     }
 
     @Override
@@ -106,4 +119,13 @@ public class MixShowActivity extends BaseActivity implements AdapterView.OnItemC
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Log.e("1",position+"haha");
     }
+
+    public void SendContent(int index){
+        bottomView.setVisibility(View.VISIBLE);
+        editText.setFocusable(true);
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInputFromInputMethod(editText.getWindowToken(),0);
+    }
+
+
 }

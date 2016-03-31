@@ -9,7 +9,7 @@
         <!-- 状态栏颜色 -->
         <item name="colorPrimaryDark">@color/material_blue_700</item>
         <!-- 字体颜色 -->
-        <item name="colorAccent">@color/material_green_A200</item>
+        <item name="colorAccent">@color/material_blue_500</item>
 
     </style>
 

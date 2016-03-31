@@ -118,7 +118,7 @@ public class MixListAdapter extends BaseAdapter {
             ImageLoaders.setsendimg(imageInfo.url, holder.showimage);
             holder.showimage.getLayoutParams().width = (int) width;
             holder.showimage.getLayoutParams().height = (int) height;
-            holder.showimage.setOnClickListener(new SingleOnclick(position, holder.showimage));
+            holder.showimage.setOnClickListener(new SingleOnclick(position, holder.showimage,holder.allLayout));
         } else if (info.data.size() > 1) {
             holder.showimage.setVisibility(View.GONE);
             holder.gridview.setVisibility(View.VISIBLE);
@@ -154,7 +154,10 @@ public class MixListAdapter extends BaseAdapter {
         }
 
         holder.fullText.setOnClickListener(new fullTextOnclick(holder.usercontent, holder.fullText, position));
-        holder.relativeLayout.setOnClickListener(new evaluationOnclick());
+        holder.relativeLayout.setOnClickListener(new evaluationOnclick(position));
+
+        holder.leftText.setOnClickListener(new NameOnclick(position+"我来"));
+        holder.rightText.setOnClickListener(new NameOnclick(position+"你来"));
 
         return convertView;
     }
@@ -175,10 +178,12 @@ public class MixListAdapter extends BaseAdapter {
 
         private int index;
         private ImageView imageView;
+        private LinearLayout allLayout;
 
-        public SingleOnclick(int index, ImageView imageView) {
+        public SingleOnclick(int index, ImageView imageView ,LinearLayout allLayout) {
             this.index = index;
             this.imageView = imageView;
+            this.allLayout = allLayout;
         }
 
         @Override
@@ -193,8 +198,8 @@ public class MixListAdapter extends BaseAdapter {
                 View view = activity.mixlist.getChildAt(i);
                 height += view.getHeight();
             }
-            bdInfo.x = imageView.getLeft();
-            bdInfo.y = imageView.getTop() + height + top + activity.mixlist.getTop();
+            bdInfo.x = imageView.getLeft() +  allLayout.getLeft();
+            bdInfo.y = imageView.getTop() + height + top + activity.mixlist.getTop() + allLayout.getTop();
             bdInfo.width = imageView.getLayoutParams().width;
             bdInfo.height = imageView.getLayoutParams().height;
             Intent intent = new Intent(context, PreviewImage.class);
@@ -293,13 +298,15 @@ public class MixListAdapter extends BaseAdapter {
 
     private class evaluationOnclick implements View.OnClickListener {
 
-        evaluationOnclick() {
+        private int index;
 
+        evaluationOnclick(int index) {
+            this.index = index;
         }
 
         @Override
         public void onClick(View v) {
-
+            activity.SendContent(index);
         }
 
     }
@@ -331,6 +338,20 @@ public class MixListAdapter extends BaseAdapter {
                 return true;
             }
         });
+    }
+
+    class NameOnclick implements View.OnClickListener {
+
+        private String name;
+
+        NameOnclick(String name){
+            this.name = name;
+        }
+
+        @Override
+        public void onClick(View v) {
+            activity.showToast(name);
+        }
     }
 
 
