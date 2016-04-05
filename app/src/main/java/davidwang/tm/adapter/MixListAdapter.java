@@ -160,7 +160,7 @@ public class MixListAdapter extends BaseAdapter {
         holder.fullText.setOnClickListener(new fullTextOnclick(holder.usercontent, holder.fullText, position));
 
 //        holder.contentEdit.setOnFocusChangeListener(new OnFocusChangeListener(position));
-        holder.relativeLayout.setOnClickListener(new evaluationOnclick(position, holder.contentEdit));
+        holder.relativeLayout.setOnClickListener(new evaluationOnclick(position, holder.contentEdit,holder.evaluationLayout,holder.allLayout));
 
         holder.leftText.setOnClickListener(new NameOnclick(position + "我来"));
         holder.rightText.setOnClickListener(new NameOnclick(position + "你来"));
@@ -186,6 +186,7 @@ public class MixListAdapter extends BaseAdapter {
         private int index;
         private ImageView imageView;
         private LinearLayout allLayout;
+
 
         public SingleOnclick(int index, ImageView imageView, LinearLayout allLayout) {
             this.index = index;
@@ -300,10 +301,13 @@ public class MixListAdapter extends BaseAdapter {
 
         private int index;
         private EditText contentEdit;
+        private LinearLayout evaluationLayout,allLayout;
 
-        evaluationOnclick(int index, EditText contentEdit) {
+        evaluationOnclick(int index, EditText contentEdit, LinearLayout evaluationLayout, LinearLayout allLayout) {
             this.index = index;
             this.contentEdit = contentEdit;
+            this.evaluationLayout = evaluationLayout;
+            this.allLayout = allLayout;
         }
 
         @Override
@@ -312,10 +316,11 @@ public class MixListAdapter extends BaseAdapter {
             contentEdit.requestFocus();
             InputMethodManager inputManager = (InputMethodManager) contentEdit.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             inputManager.showSoftInput(contentEdit, 0);
+            final int hight = evaluationLayout.getTop()+v.getTop()+allLayout.getTop();
             new Handler().postDelayed(new Runnable() {
                 public void run() {
                     //execute the task
-                    activity.SendContent(index);
+                    activity.SendContent(index,hight);
                 }
             }, 200);
         }
@@ -363,6 +368,7 @@ public class MixListAdapter extends BaseAdapter {
             activity.showToast(name);
         }
     }
+
 
 
 }

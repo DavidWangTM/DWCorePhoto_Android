@@ -26,13 +26,13 @@
         android:fastScrollEnabled="false"
         android:listSelector="@android:color/transparent"
         android:layout_below="@+id/id_toolbar"
-        android:layout_above="@+id/bottomView" />
+        />
 
 
     <RelativeLayout
         android:id="@+id/bottomView"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:visibility="gone"
         android:background="@android:color/white">
@@ -46,6 +46,7 @@
             android:layout_marginTop="3dp"
             android:layout_toLeftOf="@+id/sendBtn"
             android:hint="回复XXXX:"
+            android:maxLines="4"
             android:textColor="@android:color/black"
             android:textColorHint="#b2b2b2" />
 

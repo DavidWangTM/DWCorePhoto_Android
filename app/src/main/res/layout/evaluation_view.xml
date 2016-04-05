@@ -17,7 +17,7 @@
     <EditText
         android:id="@+id/contentEdit"
         android:layout_width="wrap_content"
-        android:layout_height="1dp"
+        android:layout_height="1px"
         android:layout_below="@+id/contentText"
         android:background="@android:color/transparent"
         />

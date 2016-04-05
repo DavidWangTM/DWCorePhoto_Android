@@ -1,8 +1,10 @@
 package davidwang.tm.dwcorephoto;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -19,7 +21,7 @@ import davidwang.tm.model.ImageInfo;
 import davidwang.tm.model.Mixinfo;
 import davidwang.tm.view.PullToZoomListView;
 
-public class MixShowActivity extends BaseActivity implements AdapterView.OnItemClickListener {
+public class MixShowActivity extends BaseActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
 
     public PullToZoomListView mixlist;
     private MixListAdapter adapterData;
@@ -29,6 +31,7 @@ public class MixShowActivity extends BaseActivity implements AdapterView.OnItemC
     private EditText editText;
     private Button sendBtn;
 
+    private int keyHeight = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +40,7 @@ public class MixShowActivity extends BaseActivity implements AdapterView.OnItemC
         findID();
         InData();
         AddToolbar();
-
-        mixlist.scrollTo(0, 1000);
+        keyHeight = (int) Height / 3;
     }
 
     @Override
@@ -52,6 +54,8 @@ public class MixShowActivity extends BaseActivity implements AdapterView.OnItemC
         bottomView = (RelativeLayout) findViewById(R.id.bottomView);
         editText = (EditText) findViewById(R.id.editText);
         sendBtn = (Button) findViewById(R.id.sendBtn);
+        mixlist.addOnLayoutChangeListener(new LayoutChangeListener());
+        sendBtn.setOnClickListener(this);
     }
 
     @Override
@@ -132,24 +136,65 @@ public class MixShowActivity extends BaseActivity implements AdapterView.OnItemC
             hideEdit();
             return false;
         }
+    }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.sendBtn:
+                hideEdit();
+                break;
+        }
     }
 
     private void hideEdit() {
         if (bottomView.getVisibility() == View.VISIBLE) {
             bottomView.setVisibility(View.GONE);
+            editText.setText("");
             InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(editText.getWindowToken(), 0); //强制隐藏键盘
         }
     }
 
-    public void SendContent(int index) {
+    public void SendContent(final int index,final int hight) {
         bottomView.setVisibility(View.VISIBLE);
         editText.setFocusable(true);
         editText.requestFocus();
-        InputMethodManager inputManager = (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputManager.showSoftInput(editText, 0);
+        new Handler().postDelayed(new Runnable() {
+
+            public void run() {
+                View v = mixlist.getChildAt(0);
+                int top = (v == null) ? 0 : v.getTop();
+                Log.e("1", hight + "-move-" + top);
+                mixlist.setSelectionFromTop((index + 1), 514 - hight);
+            }
+        }, 50);
     }
 
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+            hideEdit();
+            return true;
+        }
+        return super.dispatchKeyEvent(event);
+    }
 
+    private class LayoutChangeListener implements View.OnLayoutChangeListener {
+        @Override
+        public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+            if (oldBottom != 0 && bottom != 0 && (oldBottom - bottom > keyHeight)) {
+                //软键盘弹起
+            } else if (oldBottom != 0 && bottom != 0 && (bottom - oldBottom > keyHeight)) {
+                //软键盘消失
+                bottomView.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        hideEdit();
+    }
 }
