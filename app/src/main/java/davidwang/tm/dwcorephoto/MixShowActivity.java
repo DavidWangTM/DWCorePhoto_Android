@@ -30,7 +30,7 @@ public class MixShowActivity extends BaseActivity implements AdapterView.OnItemC
     private RelativeLayout bottomView;
     private EditText editText;
     private Button sendBtn;
-
+    private int height_top = 0;
     private int keyHeight = 0;
 
     @Override
@@ -166,7 +166,11 @@ public class MixShowActivity extends BaseActivity implements AdapterView.OnItemC
                 View v = mixlist.getChildAt(0);
                 int top = (v == null) ? 0 : v.getTop();
                 Log.e("1", hight + "-move-" + top);
-                mixlist.setSelectionFromTop((index + 1), 514 - hight);
+                if (height_top == 0) {
+                    height_top = hight + top - dip2px(50);
+//                    height_top = hight + top;
+                }
+                mixlist.setSelectionFromTop((index + 1), height_top - hight);
             }
         }, 50);
     }
