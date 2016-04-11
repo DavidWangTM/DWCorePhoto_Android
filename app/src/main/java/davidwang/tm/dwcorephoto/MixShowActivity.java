@@ -21,7 +21,7 @@ import davidwang.tm.model.ImageInfo;
 import davidwang.tm.model.Mixinfo;
 import davidwang.tm.view.PullToZoomListView;
 
-public class MixShowActivity extends BaseActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
+public class MixShowActivity extends BaseActivity implements AdapterView.OnItemClickListener, View.OnClickListener,PullToZoomListView.BackTouchEvent {
 
     public PullToZoomListView mixlist;
     private MixListAdapter adapterData;
@@ -50,7 +50,7 @@ public class MixShowActivity extends BaseActivity implements AdapterView.OnItemC
         mixlist.getHeaderView().setImageResource(R.mipmap.mixheadimg);
         mixlist.getHeaderView().setScaleType(ImageView.ScaleType.CENTER_CROP);
         mixlist.setOnItemClickListener(this);
-        mixlist.setOnTouchListener(new ListTouchEvent());
+        mixlist.setTouchEvent(this);
         bottomView = (RelativeLayout) findViewById(R.id.bottomView);
         editText = (EditText) findViewById(R.id.editText);
         sendBtn = (Button) findViewById(R.id.sendBtn);
@@ -128,16 +128,6 @@ public class MixShowActivity extends BaseActivity implements AdapterView.OnItemC
         hideEdit();
     }
 
-    class ListTouchEvent implements View.OnTouchListener {
-
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            // TODO Auto-generated method stub
-            hideEdit();
-            return false;
-        }
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -161,14 +151,11 @@ public class MixShowActivity extends BaseActivity implements AdapterView.OnItemC
         editText.setFocusable(true);
         editText.requestFocus();
         new Handler().postDelayed(new Runnable() {
-
             public void run() {
                 View v = mixlist.getChildAt(0);
                 int top = (v == null) ? 0 : v.getTop();
-                Log.e("1", hight + "-move-" + top);
                 if (height_top == 0) {
                     height_top = hight + top - dip2px(50);
-//                    height_top = hight + top;
                 }
                 mixlist.setSelectionFromTop((index + 1), height_top - hight);
             }
@@ -199,6 +186,11 @@ public class MixShowActivity extends BaseActivity implements AdapterView.OnItemC
     @Override
     protected void onResume() {
         super.onResume();
+        hideEdit();
+    }
+
+    @Override
+    public void OnTouchEvent() {
         hideEdit();
     }
 }

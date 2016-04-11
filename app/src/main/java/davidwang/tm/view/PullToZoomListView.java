@@ -40,6 +40,7 @@ public class PullToZoomListView extends ListView implements
 	private AbsListView.OnScrollListener mOnScrollListener;
 	private ScalingRunnalable mScalingRunnalable;
 	private int mScreenHeight;
+	private BackTouchEvent event;
 
 	public PullToZoomListView(Context paramContext) {
 		super(paramContext);
@@ -56,6 +57,10 @@ public class PullToZoomListView extends ListView implements
 			AttributeSet paramAttributeSet, int paramInt) {
 		super(paramContext, paramAttributeSet, paramInt);
 		init(paramContext);
+	}
+
+	public void setTouchEvent(BackTouchEvent event){
+		this.event = event;
 	}
 
 	private void endScraling() {
@@ -138,6 +143,7 @@ public class PullToZoomListView extends ListView implements
 	}
 
 	public boolean onTouchEvent(MotionEvent paramMotionEvent) {
+		event.OnTouchEvent();
 		switch (0xFF & paramMotionEvent.getAction()) {
 		case 4:
 		case 0:
@@ -265,5 +271,12 @@ public class PullToZoomListView extends ListView implements
 			this.mIsFinished = false;
 			PullToZoomListView.this.post(this);
 		}
+	}
+
+	public interface BackTouchEvent {
+		/**
+		 * @return whether the adapter was set or not.
+		 */
+		public void OnTouchEvent();
 	}
 }
