@@ -159,7 +159,7 @@ public class MixShowActivity extends BaseActivity implements AdapterView.OnItemC
                 }
                 mixlist.setSelectionFromTop((index + 1), height_top - hight);
             }
-        }, 50);
+        }, 100);
     }
 
     @Override
