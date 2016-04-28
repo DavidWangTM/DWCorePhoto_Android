@@ -3,9 +3,7 @@ package davidwang.tm.dwcorephoto;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -17,11 +15,12 @@ import android.widget.RelativeLayout;
 import java.util.ArrayList;
 
 import davidwang.tm.adapter.MixListAdapter;
+import davidwang.tm.model.DialogueInfo;
 import davidwang.tm.model.ImageInfo;
 import davidwang.tm.model.Mixinfo;
 import davidwang.tm.view.PullToZoomListView;
 
-public class MixShowActivity extends BaseActivity implements AdapterView.OnItemClickListener, View.OnClickListener,PullToZoomListView.BackTouchEvent {
+public class MixShowActivity extends BaseActivity implements AdapterView.OnItemClickListener, View.OnClickListener, PullToZoomListView.BackTouchEvent {
 
     public PullToZoomListView mixlist;
     private MixListAdapter adapterData;
@@ -32,6 +31,8 @@ public class MixShowActivity extends BaseActivity implements AdapterView.OnItemC
     private Button sendBtn;
     private int height_top = 0;
     private int keyHeight = 0;
+    private int index;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +63,13 @@ public class MixShowActivity extends BaseActivity implements AdapterView.OnItemC
     public void InData() {
         super.InData();
         data = new ArrayList<Mixinfo>();
+
         Mixinfo info1 = new Mixinfo();
         info1.username = "DavidWang";
         info1.userimg = "http://imgsrc.baidu.com/forum/pic/item/8b82b9014a90f603fa18d50f3912b31bb151edca.jpg";
         info1.content = "这是一个单张的演示";
         info1.data = AddData(1, 0);
+        info1.dialogdata = AddDialog();
         data.add(info1);
 
         Mixinfo info2 = new Mixinfo();
@@ -74,6 +77,7 @@ public class MixShowActivity extends BaseActivity implements AdapterView.OnItemC
         info2.userimg = "http://imgsrc.baidu.com/forum/pic/item/8b82b9014a90f603fa18d50f3912b31bb151edca.jpg";
         info2.content = "这是一个单张的演示";
         info2.data = AddData(1, 1);
+        info2.dialogdata = AddDialog();
         data.add(info2);
 
         Mixinfo info3 = new Mixinfo();
@@ -81,6 +85,7 @@ public class MixShowActivity extends BaseActivity implements AdapterView.OnItemC
         info3.userimg = "http://imgsrc.baidu.com/forum/pic/item/8b82b9014a90f603fa18d50f3912b31bb151edca.jpg";
         info3.content = "这是一个单张的演示";
         info3.data = AddData(1, 2);
+        info3.dialogdata = AddDialog();
         data.add(info3);
 
         for (int i = 2; i < 10; i++) {
@@ -89,6 +94,7 @@ public class MixShowActivity extends BaseActivity implements AdapterView.OnItemC
             info4.userimg = "http://imgsrc.baidu.com/forum/pic/item/8b82b9014a90f603fa18d50f3912b31bb151edca.jpg";
             info4.content = "这是" + i + "个单张的演示测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度测试字符长度";
             info4.data = AddData(i, 2);
+            info4.dialogdata = AddDialog();
             data.add(info4);
         }
 
@@ -123,6 +129,14 @@ public class MixShowActivity extends BaseActivity implements AdapterView.OnItemC
         return data;
     }
 
+    private ArrayList<DialogueInfo> AddDialog() {
+        ArrayList<DialogueInfo> dialogdata = new ArrayList<DialogueInfo>();
+        DialogueInfo dinfo = new DialogueInfo();
+        dinfo.content = "我来回复你来:哇哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哇哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈";
+        dialogdata.add(dinfo);
+        return dialogdata;
+    }
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         hideEdit();
@@ -132,6 +146,17 @@ public class MixShowActivity extends BaseActivity implements AdapterView.OnItemC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sendBtn:
+                String content = editText.getText().toString();
+                if (content.length() > 0) {
+                    DialogueInfo dinfo = new DialogueInfo();
+                    dinfo.leftname = "我来";
+                    dinfo.rightname = "你来";
+                    dinfo.content = dinfo.leftname + "回复" + dinfo.rightname + ":" + content;
+                    Mixinfo minfo = data.get(index);
+                    ArrayList<DialogueInfo> dialogarr = minfo.dialogdata;
+                    dialogarr.add(dinfo);
+                    adapterData.notifyDataSetChanged();
+                }
                 hideEdit();
                 break;
         }
@@ -146,7 +171,8 @@ public class MixShowActivity extends BaseActivity implements AdapterView.OnItemC
         }
     }
 
-    public void SendContent(final int index,final int hight) {
+    public void SendContent(final int index, final int hight) {
+        this.index = index;
         bottomView.setVisibility(View.VISIBLE);
         editText.setFocusable(true);
         editText.requestFocus();

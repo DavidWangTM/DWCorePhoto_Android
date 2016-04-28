@@ -158,7 +158,6 @@ public class PreviewImage extends BaseActivity implements OnPageChangeListener {
                     animateFirstListener);
             // Now just add PhotoView to ViewPager and return it
             photoView.setOnViewTapListener(new OnViewTapListener() {
-
                 @Override
                 public void onViewTap(View arg0, float arg1, float arg2) {
                     viewpager.setVisibility(View.GONE);

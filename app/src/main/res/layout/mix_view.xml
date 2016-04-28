@@ -159,6 +159,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:background="@color/content_bg"
+            android:padding="4dp"
             android:orientation="vertical">
 
 

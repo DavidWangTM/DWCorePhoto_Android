@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import davidwang.tm.dwcorephoto.MixShowActivity;
 import davidwang.tm.dwcorephoto.PreviewImage;
 import davidwang.tm.dwcorephoto.R;
+import davidwang.tm.model.DialogueInfo;
 import davidwang.tm.model.ImageBDInfo;
 import davidwang.tm.model.ImageInfo;
 import davidwang.tm.model.Mixinfo;
@@ -83,15 +84,7 @@ public class MixListAdapter extends BaseAdapter {
                 holder.imgview[i] = (ImageView) convertView.findViewById(ImagaId[i]);
             }
 
-            holder.relativeLayout = View.inflate(context, R.layout.evaluation_view, null);
 
-            holder.contentText = (TextView) holder.relativeLayout.findViewById(R.id.contentText);
-            holder.leftText = (TextView) holder.relativeLayout.findViewById(R.id.leftText);
-            holder.defaultText = (TextView) holder.relativeLayout.findViewById(R.id.defaultText);
-            holder.rightText = (TextView) holder.relativeLayout.findViewById(R.id.rightText);
-            holder.contentEdit = (EditText) holder.relativeLayout.findViewById(R.id.contentEdit);
-
-            holder.evaluationLayout.addView(holder.relativeLayout);
 
             convertView.setTag(holder);
         } else {
@@ -160,7 +153,23 @@ public class MixListAdapter extends BaseAdapter {
         holder.fullText.setOnClickListener(new fullTextOnclick(holder.usercontent, holder.fullText, position));
 
 //        holder.contentEdit.setOnFocusChangeListener(new OnFocusChangeListener(position));
-        holder.relativeLayout.setOnClickListener(new evaluationOnclick(position, holder.contentEdit,holder.evaluationLayout,holder.allLayout));
+
+        holder.evaluationLayout.removeAllViews();
+        for (int i = 0; i < info.dialogdata.size(); i++){
+            holder.relativeLayout = View.inflate(context, R.layout.evaluation_view, null);
+            holder.relativeLayout.setTag( position * i+88);
+            holder.contentText = (TextView) holder.relativeLayout.findViewById(R.id.contentText);
+            holder.leftText = (TextView) holder.relativeLayout.findViewById(R.id.leftText);
+            holder.defaultText = (TextView) holder.relativeLayout.findViewById(R.id.defaultText);
+            holder.rightText = (TextView) holder.relativeLayout.findViewById(R.id.rightText);
+            holder.contentEdit = (EditText) holder.relativeLayout.findViewById(R.id.contentEdit);
+            holder.relativeLayout.setOnClickListener(new evaluationOnclick(position,holder.evaluationLayout,holder.allLayout));
+            DialogueInfo dinfo = info.dialogdata.get(i);
+            holder.contentText.setText(dinfo.content);
+            holder.evaluationLayout.addView(holder.relativeLayout);
+        }
+
+
 
         holder.leftText.setOnClickListener(new NameOnclick(position + "我来"));
         holder.rightText.setOnClickListener(new NameOnclick(position + "你来"));
@@ -303,15 +312,15 @@ public class MixListAdapter extends BaseAdapter {
         private EditText contentEdit;
         private LinearLayout evaluationLayout,allLayout;
 
-        evaluationOnclick(int index, EditText contentEdit, LinearLayout evaluationLayout, LinearLayout allLayout) {
+        evaluationOnclick(int index, LinearLayout evaluationLayout, LinearLayout allLayout) {
             this.index = index;
-            this.contentEdit = contentEdit;
             this.evaluationLayout = evaluationLayout;
             this.allLayout = allLayout;
         }
 
         @Override
         public void onClick(View v) {
+            contentEdit = (EditText)v.findViewById(R.id.contentEdit);
             contentEdit.setFocusable(true);
             contentEdit.requestFocus();
             InputMethodManager inputManager = (InputMethodManager) contentEdit.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);

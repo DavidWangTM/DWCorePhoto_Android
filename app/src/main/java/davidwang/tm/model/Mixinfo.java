@@ -13,5 +13,6 @@ public class Mixinfo implements Serializable {
     public String userimg;
     public boolean is_select = false;
     public ArrayList<ImageInfo> data;
+    public ArrayList<DialogueInfo> dialogdata;
 
 }
