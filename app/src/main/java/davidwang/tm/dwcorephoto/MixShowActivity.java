@@ -67,6 +67,7 @@ public class MixShowActivity extends BaseActivity implements AdapterView.OnItemC
         Mixinfo info1 = new Mixinfo();
         info1.username = "DavidWang";
         info1.userimg = "http://imgsrc.baidu.com/forum/pic/item/8b82b9014a90f603fa18d50f3912b31bb151edca.jpg";
+
         info1.content = "这是一个单张的演示";
         info1.data = AddData(1, 0);
         info1.dialogdata = AddDialog();
@@ -109,8 +110,12 @@ public class MixShowActivity extends BaseActivity implements AdapterView.OnItemC
             if (type == 0) {
                 ImageInfo info = new ImageInfo();
                 info.url = "http://img4q.duitang.com/uploads/item/201408/11/20140811141753_iNtAF.jpeg";
-                info.width = 1280;
-                info.height = 720;
+                //由某GIT同学提供，适当使用。
+//                info.url =  "http://api.feyuu.com/uploads/images/25741/clear_dynamic/20160523/thum-141600-1.jpeg";
+//                //高清图
+//                info.hdurl = "http://api.feyuu.com/uploads/images/25741/clear_dynamic/20160523/141600-1.jpeg";
+                info.width = 300;
+                info.height = 225;
                 data.add(info);
             } else if (type == 1) {
                 ImageInfo info = new ImageInfo();

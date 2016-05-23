@@ -2,6 +2,7 @@ package davidwang.tm.dwcorephoto;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -46,6 +47,7 @@ public class PreviewImage extends BaseActivity implements OnPageChangeListener {
     private LinearLayout AddLayout;
     private View moveView;
     private RelativeLayout addrelative;
+    private boolean is_touch = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,16 +156,19 @@ public class PreviewImage extends BaseActivity implements OnPageChangeListener {
         public View instantiateItem(ViewGroup container, int position) {
             PhotoView photoView = new PhotoView(container.getContext());
             String path = ImgList.get(position).url;
+            if (ImgList.get(position).hdurl != null){
+                path = ImgList.get(position).hdurl;
+            }
             ImageLoader.getInstance().displayImage(path, photoView, options,
                     animateFirstListener);
             // Now just add PhotoView to ViewPager and return it
             photoView.setOnViewTapListener(new OnViewTapListener() {
                 @Override
                 public void onViewTap(View arg0, float arg1, float arg2) {
+                    is_touch = true;
                     viewpager.setVisibility(View.GONE);
                     showimg.setVisibility(View.VISIBLE);
                     setShowimage();
-//                    finish();
                 }
             });
             container.addView(photoView, LayoutParams.MATCH_PARENT,
@@ -197,7 +202,6 @@ public class PreviewImage extends BaseActivity implements OnPageChangeListener {
                 imageView.setImageBitmap(loadedImage);
                 boolean firstDisplay = !displayedImages.contains(imageUri);
                 if (firstDisplay) {
-//					FadeInBitmapDisplayer.animate(imageView, 500);
                     displayedImages.add(imageUri);
                 }
             }
@@ -208,6 +212,7 @@ public class PreviewImage extends BaseActivity implements OnPageChangeListener {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (viewpager.getVisibility() == View.VISIBLE) {
+                is_touch = true;
                 viewpager.setVisibility(View.GONE);
                 showimg.setVisibility(View.VISIBLE);
                 setShowimage();
@@ -220,7 +225,14 @@ public class PreviewImage extends BaseActivity implements OnPageChangeListener {
     protected void EndSoring() {
         super.EndSoring();
         viewpager.setVisibility(View.VISIBLE);
-        showimg.setVisibility(View.GONE);
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                //execute the task
+                if (!is_touch){
+                    showimg.setVisibility(View.GONE);
+                }
+            }
+        }, 300);
     }
 
     @Override

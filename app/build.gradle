@@ -10,8 +10,8 @@ android {
     }
 
     defaultConfig {
-        applicationId "davidwang.tm.dwcorephoto"
         minSdkVersion 15
+        applicationId "davidwang.tm.dwcorephoto"
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"

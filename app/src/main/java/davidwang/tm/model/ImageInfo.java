@@ -8,6 +8,8 @@ import java.io.Serializable;
 public class ImageInfo implements Serializable {
 
     public String url;
+    //高清图
+    public String hdurl;
     public float width;
     public float height;
 

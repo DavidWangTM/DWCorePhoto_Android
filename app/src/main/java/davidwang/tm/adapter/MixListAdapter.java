@@ -152,8 +152,6 @@ public class MixListAdapter extends BaseAdapter {
 
         holder.fullText.setOnClickListener(new fullTextOnclick(holder.usercontent, holder.fullText, position));
 
-//        holder.contentEdit.setOnFocusChangeListener(new OnFocusChangeListener(position));
-
         holder.evaluationLayout.removeAllViews();
         for (int i = 0; i < info.dialogdata.size(); i++){
             holder.relativeLayout = View.inflate(context, R.layout.evaluation_view, null);
@@ -221,7 +219,6 @@ public class MixListAdapter extends BaseAdapter {
             bdInfo.height = imageView.getLayoutParams().height;
             Intent intent = new Intent(context, PreviewImage.class);
             ArrayList<ImageInfo> info = data.get(index).data;
-            Log.e("1", info.toString());
             intent.putExtra("data", (Serializable) info);
             intent.putExtra("bdinfo", bdInfo);
             intent.putExtra("index", 0);

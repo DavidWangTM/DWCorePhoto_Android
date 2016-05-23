@@ -80,5 +80,23 @@ public class ImageLoaders {
 				listener);
 	}
 
+	public static void sethdimg(String url, ImageView imageView,
+									   ImageLoadingListener listener) {
+		if (dailyfines == null) {
+			dailyfines = new DisplayImageOptions.Builder()
+					.showImageOnLoading(0)
+					.showImageForEmptyUri(0)
+					.showImageOnFail(0)
+					.cacheInMemory(true)
+					.cacheOnDisk(true)
+					.considerExifParams(false)
+					.bitmapConfig(Bitmap.Config.RGB_565)
+					.imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
+					.build();
+		}
+
+		ImageLoader.getInstance().displayImage(url, imageView, dailyfines,
+				listener);
+	}
 
 }

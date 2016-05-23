@@ -1,6 +1,7 @@
 package davidwang.tm.dwcorephoto;
 
 import android.annotation.TargetApi;
+import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,6 +24,8 @@ import com.facebook.rebound.SpringUtil;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import davidwang.tm.model.ImageBDInfo;
@@ -40,7 +43,9 @@ public class BaseActivity extends AppCompatActivity {
     // 屏幕高度
     public float Height;
 
-    protected  ImageView showimg;
+    protected ImageView showimg;
+
+    private  View Barview;
 
     private final Spring mSpring = SpringSystem
             .create()
@@ -51,7 +56,7 @@ public class BaseActivity extends AppCompatActivity {
 
     protected ImageBDInfo bdInfo;
     protected ImageInfo imageInfo;
-    private float size,size_h;
+    private float size, size_h;
 
     private float img_w;
     private float img_h;
@@ -69,7 +74,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DisplayMetrics dm =getResources().getDisplayMetrics();
+        DisplayMetrics dm = getResources().getDisplayMetrics();
         Width = dm.widthPixels;
         Height = dm.heightPixels;
         setToolbar(0xff009688);
@@ -81,7 +86,7 @@ public class BaseActivity extends AppCompatActivity {
         titleBarHeight = contentTop - statusBarHeight;
     }
 
-    protected void setToolbar(int color){
+    protected void setToolbar(int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             setTranslucentStatus(true);
         }
@@ -108,9 +113,9 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     *添加头部
+     * 添加头部
      */
-    protected void AddToolbar(){
+    protected void AddToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.id_toolbar);
         toolbar.setLogo(R.mipmap.ic_launcher);
         setSupportActionBar(toolbar);
@@ -121,7 +126,7 @@ public class BaseActivity extends AppCompatActivity {
      * 获取资源
      */
     protected void findID() {
-        MainView = (RelativeLayout)findViewById(R.id.MainView);
+        MainView = (RelativeLayout) findViewById(R.id.MainView);
     }
 
     /**
@@ -146,8 +151,7 @@ public class BaseActivity extends AppCompatActivity {
     /**
      * 显示提示信息
      *
-     * @param text
-     *            提示文本
+     * @param text 提示文本
      */
     public void showToast(String text) {
         if (mToast == null) {
@@ -168,20 +172,26 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    protected void getValue(){
+    protected void getValue() {
         showimg = new ImageView(this);
         showimg.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        ImageLoaders.setsendimg(imageInfo.url,showimg);
+        ImageLoaders.setsendimg(imageInfo.url, showimg);
         img_w = bdInfo.width;
         img_h = bdInfo.height;
-        size = Width/img_w;
-        // Wait for layout.
-        y_img_h = imageInfo.height*Width/imageInfo.width;
-        size_h = y_img_h/img_h;
-        RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams((int)bdInfo.width,(int)bdInfo.height);
+        size = Width / img_w;
+        y_img_h = imageInfo.height * Width / imageInfo.width;
+        size_h = y_img_h / img_h;
+        RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams((int) bdInfo.width, (int) bdInfo.height);
         showimg.setLayoutParams(p);
-        p.setMargins((int)bdInfo.x,(int)bdInfo.y,(int)(Width - (bdInfo.x+bdInfo.width)),(int)(Height - (bdInfo.y + bdInfo.height)));
+        p.setMargins((int) bdInfo.x, (int) bdInfo.y, (int) (Width - (bdInfo.x + bdInfo.width)), (int) (Height - (bdInfo.y + bdInfo.height)));
         MainView.addView(showimg);
+
+        Barview =  View.inflate(this, R.layout.waiting_view, null);
+        Barview.setVisibility(View.GONE);
+        RelativeLayout.LayoutParams p1 = new RelativeLayout.LayoutParams((int)Width, (int)Height);
+        Barview.setLayoutParams(p1);
+        MainView.addView(Barview);
+
         showimg.setVisibility(View.VISIBLE);
         new Handler().postDelayed(new Runnable() {
             public void run() {
@@ -190,11 +200,11 @@ public class BaseActivity extends AppCompatActivity {
         }, 300);
     }
 
-    protected void setShowimage(){
-        if (mSpring.getEndValue() == 0){
+    protected void setShowimage() {
+        if (mSpring.getEndValue() == 0) {
             mSpring.setSpringConfig(SpringConfig.fromOrigamiTensionAndFriction(170, 5));
-            tx = Width/2 - (bdInfo.x+img_w/2);
-            ty = Height/2-(bdInfo.y+img_h/2);
+            tx = Width / 2 - (bdInfo.x + img_w / 2);
+            ty = Height / 2 - (bdInfo.y + img_h / 2);
             MoveView();
             return;
         }
@@ -215,10 +225,10 @@ public class BaseActivity extends AppCompatActivity {
         public void onSpringUpdate(Spring spring) {
             double CurrentValue = spring.getCurrentValue();
             float mappedValue = (float) SpringUtil.mapValueFromRangeToRange(CurrentValue, 0, 1, 1, size);
-            float mapy =  (float) SpringUtil.mapValueFromRangeToRange(CurrentValue, 0, 1, 1, size_h);
+            float mapy = (float) SpringUtil.mapValueFromRangeToRange(CurrentValue, 0, 1, 1, size_h);
             showimg.setScaleX(mappedValue);
             showimg.setScaleY(mapy);
-            if (CurrentValue == 1){
+            if (CurrentValue == 1) {
                 EndSoring();
             }
         }
@@ -239,11 +249,11 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    protected void EndSoring(){
+    protected void EndSoring() {
 
     }
 
-    protected  void EndMove(){
+    protected void EndMove() {
 
     }
 
@@ -268,15 +278,14 @@ public class BaseActivity extends AppCompatActivity {
     }
 
 
-    private void MoveView(){
-
-        ObjectAnimator.ofFloat(MainView,"alpha",0.8f).setDuration(0).start();
+    private void MoveView() {
+        ObjectAnimator.ofFloat(MainView, "alpha", 0.8f).setDuration(0).start();
         MainView.setVisibility(View.VISIBLE);
         AnimatorSet set = new AnimatorSet();
         set.playTogether(
-                ObjectAnimator.ofFloat(showimg, "translationX",tx).setDuration(200),
-                ObjectAnimator.ofFloat(showimg, "translationY",ty).setDuration(200),
-                ObjectAnimator.ofFloat(MainView,"alpha",1).setDuration(200)
+                ObjectAnimator.ofFloat(showimg, "translationX", tx).setDuration(200),
+                ObjectAnimator.ofFloat(showimg, "translationY", ty).setDuration(200),
+                ObjectAnimator.ofFloat(MainView, "alpha", 1).setDuration(200)
 
         );
         set.addListener(new Animator.AnimatorListener() {
@@ -287,8 +296,12 @@ public class BaseActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animator animator) {
-                showimg.setScaleType(ImageView.ScaleType.FIT_XY);
-                mSpring.setEndValue(1);
+                if (imageInfo.hdurl == null) {
+                    showimg.setScaleType(ImageView.ScaleType.FIT_XY);
+                    mSpring.setEndValue(1);
+                } else {
+                    HDImageChange();
+                }
             }
 
             @Override
@@ -305,11 +318,40 @@ public class BaseActivity extends AppCompatActivity {
 
     }
 
-    private void MoveBackView(){
+    private void HDImageChange() {
+        ImageLoaders.sethdimg(imageInfo.hdurl, showimg, new ImageLoadingListener() {
+            @Override
+            public void onLoadingStarted(String imageUri, View view) {
+                //这里加载过度动画
+                Barview.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                //加载失败
+                showToast("加载失败.");
+            }
+
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                //加载成功
+                Barview.setVisibility(View.GONE);
+                showimg.setScaleType(ImageView.ScaleType.FIT_XY);
+                mSpring.setEndValue(1);
+            }
+
+            @Override
+            public void onLoadingCancelled(String imageUri, View view) {
+                //取消加载
+            }
+        });
+    }
+
+    private void MoveBackView() {
         AnimatorSet set = new AnimatorSet();
         set.playTogether(
-                ObjectAnimator.ofFloat(showimg, "translationX",to_x).setDuration(200),
-                ObjectAnimator.ofFloat(showimg, "translationY",to_y).setDuration(200)
+                ObjectAnimator.ofFloat(showimg, "translationX", to_x).setDuration(200),
+                ObjectAnimator.ofFloat(showimg, "translationY", to_y).setDuration(200)
         );
         set.addListener(new Animator.AnimatorListener() {
             @Override
