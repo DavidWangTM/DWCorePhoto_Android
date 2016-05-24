@@ -109,13 +109,14 @@ public class MixShowActivity extends BaseActivity implements AdapterView.OnItemC
         for (int i = 0; i < num; i++) {
             if (type == 0) {
                 ImageInfo info = new ImageInfo();
-                info.url = "http://img4q.duitang.com/uploads/item/201408/11/20140811141753_iNtAF.jpeg";
+//                info.url = "http://img4q.duitang.com/uploads/item/201408/11/20140811141753_iNtAF.jpeg";
                 //由某GIT同学提供，适当使用。
-//                info.url =  "http://api.feyuu.com/uploads/images/25741/clear_dynamic/20160523/thum-141600-1.jpeg";
+                info.url =  "http://api.feyuu.com/uploads/images/25763/clear_dynamic/20160523/thum-173257-3.jpeg";
 //                //高清图
-//                info.hdurl = "http://api.feyuu.com/uploads/images/25741/clear_dynamic/20160523/141600-1.jpeg";
-                info.width = 300;
-                info.height = 225;
+                info.hdurl = "http://api.feyuu.com/uploads/images/25763/clear_dynamic/20160523/173257-3.jpeg";
+                //如果有高清图，请填写高清图的分辨率
+                info.width = 720;
+                info.height = 1280;
                 data.add(info);
             } else if (type == 1) {
                 ImageInfo info = new ImageInfo();
@@ -123,6 +124,7 @@ public class MixShowActivity extends BaseActivity implements AdapterView.OnItemC
                 info.width = 640;
                 info.height = 960;
                 data.add(info);
+
             } else {
                 ImageInfo info = new ImageInfo();
                 info.url = "http://h.hiphotos.baidu.com/album/scrop%3D236%3Bq%3D90/sign=2fab0be130adcbef056a3959dc921cee/4b90f603738da977c61bb40eb151f8198618e3db.jpg";

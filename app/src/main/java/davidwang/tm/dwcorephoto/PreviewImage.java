@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -171,6 +172,7 @@ public class PreviewImage extends BaseActivity implements OnPageChangeListener {
                     setShowimage();
                 }
             });
+
             container.addView(photoView, LayoutParams.MATCH_PARENT,
                     LayoutParams.MATCH_PARENT);
 
@@ -200,6 +202,7 @@ public class PreviewImage extends BaseActivity implements OnPageChangeListener {
             if (loadedImage != null) {
                 ImageView imageView = (ImageView) view;
                 imageView.setImageBitmap(loadedImage);
+                Log.e("1",imageView.getWidth()+"-"+imageView.getHeight());
                 boolean firstDisplay = !displayedImages.contains(imageUri);
                 if (firstDisplay) {
                     displayedImages.add(imageUri);

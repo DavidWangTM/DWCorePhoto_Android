@@ -63,6 +63,7 @@ public class BaseActivity extends AppCompatActivity {
 
     //原图高
     private float y_img_h;
+    private float x_img_w;
     protected float to_x = 0;
     protected float to_y = 0;
     private float tx;
@@ -181,6 +182,11 @@ public class BaseActivity extends AppCompatActivity {
         size = Width / img_w;
         y_img_h = imageInfo.height * Width / imageInfo.width;
         size_h = y_img_h / img_h;
+        if (y_img_h > Height){
+            size_h = Height / img_h;
+            x_img_w = imageInfo.width * Height / imageInfo.height;
+            size =  x_img_w / img_w;
+        }
         RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams((int) bdInfo.width, (int) bdInfo.height);
         showimg.setLayoutParams(p);
         p.setMargins((int) bdInfo.x, (int) bdInfo.y, (int) (Width - (bdInfo.x + bdInfo.width)), (int) (Height - (bdInfo.y + bdInfo.height)));

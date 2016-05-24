@@ -83,9 +83,6 @@ public class MixListAdapter extends BaseAdapter {
             for (int i = 0; i < 9; i++) {
                 holder.imgview[i] = (ImageView) convertView.findViewById(ImagaId[i]);
             }
-
-
-
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -106,12 +103,15 @@ public class MixListAdapter extends BaseAdapter {
             float height = 0.0f;
             if (w > h) {
                 width = activity.Width - dip2px(130);
+                height = width * h / w;
             } else if (w < h) {
-                width = activity.Width / 3;
+                height = dip2px(220);
+                width = w * height / h;
             } else if (w == h) {
                 width = activity.Width / 2;
+                height = width * h / w;
             }
-            height = width * h / w;
+
             ImageLoaders.setsendimg(imageInfo.url, holder.showimage);
             holder.showimage.getLayoutParams().width = (int) width;
             holder.showimage.getLayoutParams().height = (int) height;
