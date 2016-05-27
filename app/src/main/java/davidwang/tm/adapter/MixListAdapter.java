@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.text.Layout;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -259,7 +258,6 @@ public class MixListAdapter extends BaseAdapter {
             bdInfo.height = imageView.getLayoutParams().height;
             Intent intent = new Intent(context, PreviewImage.class);
             ArrayList<ImageInfo> info = data.get(index).data;
-            Log.e("1", info.toString());
             intent.putExtra("data", (Serializable) info);
             intent.putExtra("bdinfo", bdInfo);
             intent.putExtra("index", row);

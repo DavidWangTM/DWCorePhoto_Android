@@ -4,9 +4,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.nostra13.universalimageloader.cache.memory.MemoryCache;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.util.ArrayList;
@@ -35,13 +31,10 @@ import uk.co.senab.photoview.PhotoViewAttacher.OnViewTapListener;
 public class PreviewImage extends BaseActivity implements OnPageChangeListener {
 
     private int index = 0;
-    private ViewPager viewpager;
+    private HackyViewPager viewpager;
     private ArrayList<ImageInfo> ImgList;
 
-    private DisplayImageOptions options;
-    private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
     private SamplePagerAdapter pagerAdapter;
-
     private float moveheight;
     private int type;
 
@@ -49,6 +42,7 @@ public class PreviewImage extends BaseActivity implements OnPageChangeListener {
     private View moveView;
     private RelativeLayout addrelative;
     private boolean is_touch = false;
+    private MemoryCache cache;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +99,6 @@ public class PreviewImage extends BaseActivity implements OnPageChangeListener {
         }
     }
 
-
     @Override
     public void onPageScrollStateChanged(int arg0) {
         // TODO Auto-generated method stub
@@ -157,11 +150,14 @@ public class PreviewImage extends BaseActivity implements OnPageChangeListener {
         public View instantiateItem(ViewGroup container, int position) {
             PhotoView photoView = new PhotoView(container.getContext());
             String path = ImgList.get(position).url;
+            String dbpath = null;
             if (ImgList.get(position).hdurl != null){
-                path = ImgList.get(position).hdurl;
+                dbpath = ImgList.get(position).hdurl;
             }
-            ImageLoader.getInstance().displayImage(path, photoView, options,
-                    animateFirstListener);
+                ImageLoaders.setsendimg(path,photoView);
+            if (dbpath != null){
+                ImageLoaders.sethdimg(dbpath,photoView,new AnimateFirstDisplayListener());
+            }
             // Now just add PhotoView to ViewPager and return it
             photoView.setOnViewTapListener(new OnViewTapListener() {
                 @Override
@@ -202,12 +198,18 @@ public class PreviewImage extends BaseActivity implements OnPageChangeListener {
             if (loadedImage != null) {
                 ImageView imageView = (ImageView) view;
                 imageView.setImageBitmap(loadedImage);
-                Log.e("1",imageView.getWidth()+"-"+imageView.getHeight());
                 boolean firstDisplay = !displayedImages.contains(imageUri);
                 if (firstDisplay) {
                     displayedImages.add(imageUri);
                 }
             }
+            Barview.setVisibility(View.GONE);
+        }
+
+        @Override
+        public void onLoadingStarted(String imageUri, View view) {
+            super.onLoadingStarted(imageUri, view);
+            Barview.setVisibility(View.VISIBLE);
         }
     }
 

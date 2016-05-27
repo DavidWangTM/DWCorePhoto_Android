@@ -1,7 +1,6 @@
 package davidwang.tm.dwcorephoto;
 
 import android.annotation.TargetApi;
-import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,8 +23,6 @@ import com.facebook.rebound.SpringUtil;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import davidwang.tm.model.ImageBDInfo;
@@ -45,7 +42,7 @@ public class BaseActivity extends AppCompatActivity {
 
     protected ImageView showimg;
 
-    private  View Barview;
+    public  View Barview;
 
     private final Spring mSpring = SpringSystem
             .create()
@@ -325,32 +322,35 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     private void HDImageChange() {
-        ImageLoaders.sethdimg(imageInfo.hdurl, showimg, new ImageLoadingListener() {
-            @Override
-            public void onLoadingStarted(String imageUri, View view) {
-                //这里加载过度动画
-                Barview.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                //加载失败
-                showToast("加载失败.");
-            }
-
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                //加载成功
-                Barview.setVisibility(View.GONE);
-                showimg.setScaleType(ImageView.ScaleType.FIT_XY);
-                mSpring.setEndValue(1);
-            }
-
-            @Override
-            public void onLoadingCancelled(String imageUri, View view) {
-                //取消加载
-            }
-        });
+        ImageLoaders.setsendimg(imageInfo.hdurl,showimg);
+        showimg.setScaleType(ImageView.ScaleType.FIT_XY);
+        mSpring.setEndValue(1);
+//        ImageLoaders.sethdimg(imageInfo.hdurl, showimg, new ImageLoadingListener() {
+//            @Override
+//            public void onLoadingStarted(String imageUri, View view) {
+//                //这里加载过度动画
+//                Barview.setVisibility(View.VISIBLE);
+//            }
+//
+//            @Override
+//            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+//                //加载失败
+//                showToast("加载失败.");
+//            }
+//
+//            @Override
+//            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+//                //加载成功
+//                Barview.setVisibility(View.GONE);
+//                showimg.setScaleType(ImageView.ScaleType.FIT_XY);
+//                mSpring.setEndValue(1);
+//            }
+//
+//            @Override
+//            public void onLoadingCancelled(String imageUri, View view) {
+//                //取消加载
+//            }
+//        });
     }
 
     private void MoveBackView() {

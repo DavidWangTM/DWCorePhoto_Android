@@ -52,7 +52,7 @@ public class ImageLoaders {
 					.showImageOnFail(0)
 					.cacheInMemory(true)
 					.cacheOnDisk(true)
-					.considerExifParams(false)
+					.considerExifParams(true)
 					.bitmapConfig(Bitmap.Config.RGB_565)
 					.imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
 					.build();
@@ -89,7 +89,7 @@ public class ImageLoaders {
 					.showImageOnFail(0)
 					.cacheInMemory(true)
 					.cacheOnDisk(true)
-					.considerExifParams(false)
+					.considerExifParams(true)
 					.bitmapConfig(Bitmap.Config.RGB_565)
 					.imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
 					.build();
